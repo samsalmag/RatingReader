@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="72.0" prefWidth="400.0" type="AnchorPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label fx:id="episodeNrLabel" layoutX="10.0" text="EP23">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Label>
+      <ToggleButton fx:id="episodeNameToggleButton" layoutX="84.0" layoutY="10.0" mnemonicParsing="false" onMousePressed="#onPressEpisodeNameToggleButton" prefHeight="25.0" prefWidth="116.0" text="Show Episode Name">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </ToggleButton>
+      <Label fx:id="episodeNameLabel" layoutX="11.0" layoutY="38.0" prefHeight="30.0" prefWidth="223.0" text="Episode Name" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="22.0">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Label>
+      <Label fx:id="ratingLabel" layoutX="258.0" layoutY="15.0" text="9.9" AnchorPane.rightAnchor="103.0">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="303.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="62.0">
+         <image>
+            <Image url="@../images/star.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="343.0" layoutY="23.0" text="/ 10" AnchorPane.rightAnchor="22.0">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+   </children>
+</fx:root>
