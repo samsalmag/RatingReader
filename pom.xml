@@ -6,7 +6,7 @@
 	
     <groupId>com.zemahzalek</groupId>
     <artifactId>ratingreader</artifactId>
-    <version>1.0</version>
+    <version>0.5.0</version>
     <packaging>jar</packaging>
     <name>RatingReader</name>
 
@@ -15,31 +15,36 @@
     </properties>
 	
 	<dependencies>
-		
+
+        <!-- JavaFX Base -->
 		<dependency>
 			<groupId>org.openjfx</groupId>
 			<artifactId>javafx-base</artifactId>
 			<version>11.0.2</version>
 		</dependency>
-		
+
+        <!-- JavaFX Graphics -->
 		<dependency>
 			<groupId>org.openjfx</groupId>
 			<artifactId>javafx-graphics</artifactId>
 			<version>11.0.2</version>
 		</dependency>
 
-		 <dependency>
-             <groupId>org.openjfx</groupId>
-             <artifactId>javafx-controls</artifactId>
-             <version>11.0.2</version>
-         </dependency>
-		 
-         <dependency>
-             <groupId>org.openjfx</groupId>
-             <artifactId>javafx-fxml</artifactId>
-             <version>11.0.2</version>
-         </dependency>
+        <!-- JavaFX Controls -->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>11.0.2</version>
+        </dependency>
 
+        <!-- JavaFX FXML -->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-fxml</artifactId>
+            <version>11.0.2</version>
+        </dependency>
+
+        <!-- JSoup -->
 		<dependency>
 			<groupId>org.jsoup</groupId>
 			<artifactId>jsoup</artifactId>
@@ -50,6 +55,8 @@
 	
 	<build>
 		<plugins>
+
+            <!-- Compiler plugin -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -59,7 +66,8 @@
 					<target>11</target>
 				</configuration>
 			</plugin>
-			
+
+            <!-- JavaFX plugin -->
 			<plugin>
                  <groupId>org.openjfx</groupId>
                  <artifactId>javafx-maven-plugin</artifactId>
@@ -67,32 +75,80 @@
                  <configuration>
                      <mainClass>com.zemahzalek.ratingreader.RatingReader</mainClass>
                  </configuration>
-             </plugin>
-			 
-			 <plugin>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <version>3.3.0</version>
-        <configuration>
-          <descriptorRefs>
-            <descriptorRef>jar-with-dependencies</descriptorRef>
-          </descriptorRefs>
-		  <archive>
-            <manifest>
-              <mainClass>com.zemahzalek.ratingreader.Main</mainClass>
-            </manifest>
-          </archive>
-        </configuration>
-        <executions>
-          <execution>
-            <id>make-assembly</id> <!-- this is used for inheritance merges -->
-            <phase>package</phase> <!-- bind to the packaging phase -->
-            <goals>
-              <goal>single</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-			
+            </plugin>
+
+            <!-- Creates a .jar file with the dependencies -->
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <appendAssemblyId>false</appendAssemblyId>  <!-- No added descriptor at end of filename -->
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <archive>
+                        <manifest>
+                            <mainClass>com.zemahzalek.ratingreader.Main</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id> <!-- this is used for inheritance merges -->
+                        <phase>package</phase> <!-- bind to the packaging phase -->
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- This plugin hinders the jar file without dependencies to be created -->
+            <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.0.2</version>
+                <executions>
+                    <execution>
+                        <id>default-jar</id>
+                        <phase>none</phase>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Creates an .exe file from the jar file -->
+            <plugin>
+                <groupId>com.akathist.maven.plugins.launch4j</groupId>
+                <artifactId>launch4j-maven-plugin</artifactId>
+                <version>1.7.25</version>
+                <executions>
+                    <execution>
+                        <id>l4j-gui</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>launch4j</goal>
+                        </goals>
+                        <configuration>
+                            <headerType>gui</headerType>
+                            <outfile>target/RatingReader-${project.version}.exe</outfile>
+                            <jar>target/${project.artifactId}-${project.version}.jar</jar>
+                            <!-- if <dontWrapJar>true</dontWrapJar> change to this conf <jar>${project.artifactId}-${project.version}.jar</jar> -->
+                            <dontWrapJar>false</dontWrapJar>
+                            <errTitle>Error in launch4j plugin</errTitle>
+                            <classPath>
+                                <mainClass>com.zemahzalek.ratingreader.Main</mainClass>
+                            </classPath>
+                            <icon>src/main/resources/images/icon.ico</icon>
+                            <jre>
+                                <minVersion>10.0.0</minVersion>
+                                <maxVersion>13.0.0</maxVersion>
+                                <initialHeapSize>512</initialHeapSize>
+                                <maxHeapSize>1024</maxHeapSize>
+                            </jre>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
 		</plugins>
 	</build>
 </project>
