@@ -24,18 +24,18 @@
             <Font size="15.0" />
          </font>
       </Label>
-      <ComboBox fx:id="seasonComboBox" layoutX="81.0" layoutY="62.0" prefHeight="30.0" prefWidth="51.0" />
-      <Label fx:id="resultNameLabel" layoutX="389.0" layoutY="19.0" prefHeight="36.0" prefWidth="289.0" text="Name (year)" AnchorPane.rightAnchor="22.0">
+      <ComboBox fx:id="seasonComboBox" layoutX="81.0" layoutY="62.0" prefHeight="30.0" prefWidth="53.0" />
+      <Label fx:id="resultNameLabel" layoutX="350.0" layoutY="19.0" prefHeight="36.0" prefWidth="330.0" text="Name (year)" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="20.0">
          <font>
             <Font name="System Bold" size="25.0" />
          </font>
       </Label>
-      <Label fx:id="resultTypeLabel" layoutX="389.0" layoutY="62.0" prefHeight="30.0" prefWidth="289.0" text="Type" AnchorPane.rightAnchor="22.0">
+      <Label fx:id="resultTypeLabel" layoutX="350.0" layoutY="62.0" prefHeight="30.0" prefWidth="330.0" text="Type" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="20.0">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <Label fx:id="resultTypeLabel1" layoutX="389.0" layoutY="99.0" prefHeight="30.0" prefWidth="289.0" text="Category" AnchorPane.rightAnchor="22.0">
+      <Label fx:id="resultTypeLabel1" layoutX="350.0" layoutY="99.0" prefHeight="30.0" prefWidth="330.0" text="Category" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="20.0">
          <font>
             <Font size="20.0" />
          </font>

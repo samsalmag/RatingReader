@@ -15,7 +15,8 @@ import java.io.IOException;
 
 public class Controller {
 
-    IMDbController imdbController;
+    Media media;
+    ImdbController imdbController;
     private String previousSearch;
 
     @FXML private AnchorPane rootAnchorPane;
@@ -37,11 +38,14 @@ public class Controller {
         initSeasonComboBox();
         initSearchTextField();
         loadingLabel.setVisible(false);
+        resultNameLabel.setVisible(false);
+        resultTypeLabel.setVisible(false);
     }
 
     // -------- INIT -------- //
     private void init() {
-        imdbController = new IMDbController();
+        media = new Media();
+        imdbController = new ImdbController(media);
     }
 
     private void initSeasonComboBox() {
@@ -112,12 +116,12 @@ public class Controller {
                 Runnable updater = new Runnable() {
                     @Override
                     public void run() {
-                        resultNameLabel.setText(imdbController.getMediaName() + " (" + imdbController.getMediaReleaseYear() + ")");
-                        resultTypeLabel.setText(imdbController.getMediaType());
+                        resultNameLabel.setText(media.getName() + " (" + media.getReleaseYear() + ")");
+                        resultTypeLabel.setText(media.getType().toString());
                         updateResults(1);       // Get season 1 on search
 
                         // Only do this if media is a TV Series
-                        if(imdbController.isTVSeries()) {
+                        if(media.isSeries()) {
                             populateSeasonComboBox();
                             seasonComboBox.getSelectionModel().select(0);       // Select 1st season on ComboBox
                             seasonComboBox.setDisable(false);
@@ -137,21 +141,24 @@ public class Controller {
     }
 
     private void updateResults(int season) {
-        resultFlowPane.getChildren().clear();   // Remove all children
+        resultFlowPane.getChildren().clear();           // Remove all children
 
         // Do only if media search is a TV Series
-        if(imdbController.isTVSeries()) {
+        if(media.isSeries()) {
             int episodeNr = 1;
-            for (String rating : imdbController.getMediaEpisodeRatings(season - 1)) {  // -1 because of index out of bounds
-                resultFlowPane.getChildren().add(new EpisodeItem(resultScrollPane, episodeNr, rating));
+            for (String rating : media.getEpisodeRatings().get(season-1)) {  // -1 because of index out of bounds
+                resultFlowPane.getChildren().add(new EpisodeItem(resultScrollPane, media, season, episodeNr, rating));
                 episodeNr++;
             }
         }
+
+        resultNameLabel.setVisible(true);
+        resultTypeLabel.setVisible(true);
     }
 
     private void populateSeasonComboBox() {
-        seasonComboBox.getItems().clear();  // Empty combo box
-        for (int i = 1; i <= imdbController.getNrSeasons(); i++) {
+        seasonComboBox.getItems().clear();                  // Empty combo box
+        for (int i = 1; i <= media.getNrSeasons(); i++) {
             seasonComboBox.getItems().add(String.valueOf(i));
         }
     }

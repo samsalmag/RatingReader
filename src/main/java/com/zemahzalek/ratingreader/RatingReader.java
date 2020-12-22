@@ -18,7 +18,7 @@ public class RatingReader extends Application {
         Scene scene = new Scene(rootFXML, 700, 500);
         stage.setMinWidth(650);
         stage.setMinHeight(400);
-        stage.setTitle("Rating Reader 0.5.0");
+        stage.setTitle("Rating Reader 0.6.0");
 
         stage.setScene(scene);
         stage.show();

@@ -15,12 +15,15 @@ import java.io.IOException;
 public class EpisodeItem extends AnchorPane {
 
     private ScrollPane rootNode;
+    private Media media;
+    private int season;
+    private int episodeNr;
     @FXML private Label episodeNrLabel;
     @FXML private Label ratingLabel;
     @FXML private ToggleButton episodeNameToggleButton;
     @FXML private Label episodeNameLabel;
 
-    public EpisodeItem(Node rootNode, int episodeNr, String rating) {
+    public EpisodeItem(Node rootNode, Media media, int season, int episodeNr, String rating) {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/episodeItem.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
@@ -32,6 +35,9 @@ public class EpisodeItem extends AnchorPane {
         }
 
         this.rootNode = (ScrollPane) rootNode;
+        this.media = media;
+        this.season = season;
+        this.episodeNr = episodeNr;
         init();
 
         episodeNrLabel.setText("EP" + String.valueOf(episodeNr));
@@ -56,6 +62,10 @@ public class EpisodeItem extends AnchorPane {
         });
     }
 
+    private String getEpisodeName() {
+        return media.getEpisodeNames().get(season-1).get(episodeNr-1);
+    }
+
     private void removeFocus() {
         // Sets focus to root anchor pane instead of pressed node
         rootNode.getParent().requestFocus();
@@ -70,6 +80,7 @@ public class EpisodeItem extends AnchorPane {
         // Else do opposite
         if(!episodeNameToggleButton.isSelected()) {
             episodeNameLabel.setVisible(true);
+            episodeNameLabel.setText(getEpisodeName());
         } else {
             episodeNameLabel.setVisible(false);
         }
