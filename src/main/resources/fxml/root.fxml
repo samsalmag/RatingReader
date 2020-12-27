@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="rootAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.zemahzalek.ratingreader.Controller">
+<AnchorPane fx:id="rootAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.zemahzalek.ratingreader.controller.Controller">
    <children>
       <TextField fx:id="searchTextField" layoutX="20.0" layoutY="22.0" prefHeight="30.0" prefWidth="200.0" />
       <Button fx:id="searchButton" layoutX="234.0" layoutY="22.0" mnemonicParsing="false" onMousePressed="#onPressSearchButton" prefHeight="30.0" prefWidth="60.0" text="Search">
@@ -24,7 +24,7 @@
             <Font size="15.0" />
          </font>
       </Label>
-      <ComboBox fx:id="seasonComboBox" layoutX="81.0" layoutY="62.0" prefHeight="30.0" prefWidth="53.0" />
+      <ComboBox fx:id="seasonComboBox" layoutX="81.0" layoutY="62.0" prefHeight="30.0" prefWidth="55.0" />
       <Label fx:id="resultNameLabel" layoutX="350.0" layoutY="19.0" prefHeight="36.0" prefWidth="330.0" text="Name (year)" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="20.0">
          <font>
             <Font name="System Bold" size="25.0" />

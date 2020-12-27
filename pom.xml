@@ -6,9 +6,10 @@
 	
     <groupId>com.zemahzalek</groupId>
     <artifactId>ratingreader</artifactId>
-    <version>0.6.0</version>
+    <version>${dev.version}</version>
     <packaging>jar</packaging>
-    <name>RatingReader</name>
+    <!--suppress UnresolvedMavenProperty --> <!-- Because of stupid error-->
+    <name>${dev.name}</name>
 
     <properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -73,7 +74,7 @@
                  <artifactId>javafx-maven-plugin</artifactId>
                  <version>0.0.3</version>
                  <configuration>
-                     <mainClass>com.zemahzalek.ratingreader.RatingReader</mainClass>
+                     <mainClass>com.zemahzalek.ratingreader.view.RatingReader</mainClass>
                  </configuration>
             </plugin>
 
@@ -129,7 +130,7 @@
                         </goals>
                         <configuration>
                             <headerType>gui</headerType>
-                            <outfile>target/RatingReader-${project.version}.exe</outfile>
+                            <outfile>target/${dev.executable.name}_${project.version}.exe</outfile>
                             <jar>target/${project.artifactId}-${project.version}.jar</jar>
                             <!-- if <dontWrapJar>true</dontWrapJar> change to this conf <jar>${project.artifactId}-${project.version}.jar</jar> -->
                             <dontWrapJar>false</dontWrapJar>
@@ -144,6 +145,26 @@
                                 <initialHeapSize>512</initialHeapSize>
                                 <maxHeapSize>1024</maxHeapSize>
                             </jre>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Allows the use of a .properties file -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>properties-maven-plugin</artifactId>
+                <version>1.0.0</version>
+                <executions>
+                    <execution>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>read-project-properties</goal>
+                        </goals>
+                        <configuration>
+                            <files>
+                                <file>src/main/resources/dev.properties</file>
+                            </files>
                         </configuration>
                     </execution>
                 </executions>
