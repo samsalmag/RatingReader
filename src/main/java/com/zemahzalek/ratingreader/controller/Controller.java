@@ -1,5 +1,6 @@
 package com.zemahzalek.ratingreader.controller;
 
+import com.zemahzalek.ratingreader.model.Episode;
 import com.zemahzalek.ratingreader.view.EpisodeItem;
 import com.zemahzalek.ratingreader.model.Media;
 import javafx.application.Platform;
@@ -28,6 +29,7 @@ public class Controller {
     @FXML private Label loadingLabel;
     @FXML private Label resultNameLabel;
     @FXML private Label resultTypeLabel;
+    @FXML private Label resultCategoryLabel;
     @FXML private ScrollPane resultScrollPane;
     @FXML private FlowPane resultFlowPane;
 
@@ -42,6 +44,7 @@ public class Controller {
         loadingLabel.setVisible(false);
         resultNameLabel.setVisible(false);
         resultTypeLabel.setVisible(false);
+        resultCategoryLabel.setVisible(false);
     }
 
     // -------- INIT -------- //
@@ -86,8 +89,10 @@ public class Controller {
         });
     }
 
+    // ------------------  ------------------ //
+
     private void search(String searchTerm) {
-        if(searchTerm.equals("")) {
+        if(searchTerm.equals("") || searchTerm == null) {
             return;
         }
 
@@ -100,46 +105,7 @@ public class Controller {
         }
 
         // New thread where the media information fetch occurs to avoid freezing the JavaFX Application thread
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-
-                loadingLabel.setVisible(true);
-                searchButton.setDisable(true);
-
-                // Get the media information
-                try {
-                    imdbController.setMedia(searchTerm);  // Sets media
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                // The UI updater. This is what will happen after media information is gathered. Updater is called below.
-                Runnable updater = new Runnable() {
-                    @Override
-                    public void run() {
-                        resultNameLabel.setText(media.getName() + " (" + media.getReleaseYear() + ")");
-                        resultTypeLabel.setText(media.getType().getName());
-                        updateResults(1);       // Get season 1 on search
-
-                        // Only do this if media is a TV Series
-                        if(media.isSeries()) {
-                            populateSeasonComboBox();
-                            seasonComboBox.getSelectionModel().select(0);       // Select 1st season on ComboBox
-                            seasonComboBox.setDisable(false);
-                        }
-
-                        loadingLabel.setVisible(false);     // Disable Loading Icon
-                        searchButton.setDisable(false);     // Enable search button after result is displayed
-                        previousSearch = searchTextField.getText();     // Set previous search text
-                    }
-                };
-
-                // Runs the UI updater after JavaFX Application thread is done (after the media information is gathered)
-                Platform.runLater(updater);
-            }
-        });
-        thread.start();     // Start the new thread
+        new Thread(new SearchMediaRunnable(searchTerm)).start();     // Start the new thread
     }
 
     private void updateResults(int season) {
@@ -147,15 +113,14 @@ public class Controller {
 
         // Do only if media search is a TV Series
         if(media.isSeries()) {
-            int episodeNr = 1;
-            for (String rating : media.getEpisodeRatings().get(season-1)) {  // -1 because of index out of bounds
-                resultFlowPane.getChildren().add(new EpisodeItem(resultScrollPane, media, season, episodeNr, rating));
-                episodeNr++;
+            for (Episode episode : media.getEpisodes().get(season-1)) {  // -1 because of index out of bounds
+                resultFlowPane.getChildren().add(new EpisodeItem(resultScrollPane, episode));
             }
         }
 
         resultNameLabel.setVisible(true);
         resultTypeLabel.setVisible(true);
+        resultCategoryLabel.setVisible(true);
     }
 
     private void populateSeasonComboBox() {
@@ -177,5 +142,52 @@ public class Controller {
     private void onPressSearchButton() throws IOException {
         removeFocus();
         search(searchTextField.getText());
+    }
+
+    // ------------------  ------------------ //
+
+    private class SearchMediaRunnable implements Runnable {
+
+        private String searchTerm;
+
+        public SearchMediaRunnable(String searchTerm) {
+            this.searchTerm = searchTerm;
+        }
+
+        @Override
+        public void run() {
+            loadingLabel.setVisible(true);
+            searchButton.setDisable(true);
+
+            // Get the media information
+            try {
+                imdbController.setMedia(searchTerm);  // Sets media
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            // The UI updater. This is what will happen after media information is gathered. Updater is called below.
+            // Runs the UI updater after JavaFX Application thread is done (after the media information is gathered)
+            Platform.runLater(() -> {
+                resultNameLabel.setText(media.getName() + " (" + media.getReleaseYear() + ")");
+                resultTypeLabel.setText(media.getType().getName());
+                resultCategoryLabel.setText(media.getCategory());
+                updateResults(1);       // Get season 1 on search
+
+                // Only do this if media is a TV Series
+                if(media.isSeries()) {
+                    populateSeasonComboBox();
+                    seasonComboBox.getSelectionModel().select(0);       // Select 1st season on ComboBox
+                    seasonComboBox.setDisable(false);
+                } else {                                                  // Disables seasonComboBox if media isn't a series
+                    seasonComboBox.getItems().clear();
+                    seasonComboBox.setDisable(true);
+                }
+
+                loadingLabel.setVisible(false);     // Disable Loading Icon
+                searchButton.setDisable(false);     // Enable search button after result is displayed
+                previousSearch = searchTextField.getText();     // Set previous search text
+            });
+        }
     }
 }

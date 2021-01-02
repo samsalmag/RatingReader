@@ -1,18 +1,20 @@
 package com.zemahzalek.ratingreader.controller;
 
+import com.zemahzalek.ratingreader.model.Episode;
 import com.zemahzalek.ratingreader.model.Media;
 import com.zemahzalek.ratingreader.model.MediaType;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.StringJoiner;
 
 public class ImdbController {
 
     Media media;
-
     private String mainUrl;
 
     private Document mainWebsiteCode;
@@ -26,8 +28,9 @@ public class ImdbController {
         fetchImdbWebsiteCode(mediaName);
         fetchMediaName();
         fetchMediaType();
+        fetchMediaCategory();
         fetchMediaReleaseYear();
-        //fetchMediaCategory();
+        fetchMediaLength();
 
        if(media.isSeries()) {
             fetchNrSeasons();
@@ -92,8 +95,22 @@ public class ImdbController {
         media.setType(mediaType);
     }
 
+    private void fetchMediaCategory() {
+        Elements categories = mainWebsiteCode.getElementsByClass("subtext").first().select("a");    // Gets first "subtext" div and selects all elements of type "a".
+        categories.remove(categories.size() - 1);                                                                 // Remove last element as it isn't a category (last one is release date).
+
+        StringJoiner sj = new StringJoiner(", ");
+        for (Element category : categories) {
+            sj.add(category.text());
+        }
+
+        //mediaCategory = mediaCategory.replaceAll("[^A-Za-z]", "");      // Remove all non alphabetic characters
+        media.setCategory(sj.toString());
+    }
+
+
     private void fetchMediaReleaseYear() {
-        String releaseYear = mainWebsiteCode.getElementsByClass("subtext").first().select("a").last().text();   // Gets first "subtext" div and selects last element of type "a"
+        String releaseYear = mainWebsiteCode.getElementsByClass("subtext").first().select("a").last().text();   // Gets first "subtext" div and selects last element of type "a".
         releaseYear = releaseYear.replaceAll("[^\\d]", "");     // Remove all non numeric characters
 
         // If no release year is found
@@ -109,16 +126,11 @@ public class ImdbController {
     }
 
     // TODO
-    /*
-    private void fetchMediaCategory() {
-        Elements elementAs = IMDbMainWebpageCode.getElementsByClass("subtext").first().select("a");    // Gets first "subtext" div and selects last element of type "a"
-        elementAs.remove(elementAs.size() - 1);
-
-        String mediaCategory = null;
-        mediaCategory = mediaCategory.replaceAll("[^A-Za-z]", "");      // Remove all non alphabetic characters
-        return mediaCategory;
+    private void fetchMediaLength() {
+        String length = mainWebsiteCode.getElementsByClass("subtext").first().select("time").text();        // Gets first "subtext" div and selects "time" element.
+        media.setLength(length);
+        System.out.println(length);
     }
-    */
 
     private void fetchNrSeasons() {
         String seasonsAndYearsDivName = "seasons-and-year-nav";
@@ -130,73 +142,65 @@ public class ImdbController {
     }
 
     private void fetchNrEpisodesPerSeason() {
-        ArrayList<Integer> episodeAmount = new ArrayList<>();
-        for (int i = 0; i < media.getNrSeasons(); i++) {
+        media.setEpisodes(new ArrayList<>());               // Creates and sets new episodes list
 
-            Element episodesDiv = seasonsWebsiteCode.get(i).getElementsByClass("list detail eplist").first();
-            Integer nrEpisodes = 0;
-            for(int j = 0; j < episodesDiv.children().size(); j++) {
-                nrEpisodes++;
+        for (int s = 0; s < media.getNrSeasons(); s++) {
+            media.getEpisodes().add(new ArrayList<>());     // Adds each season to episodes list
+
+            Element episodesDiv = seasonsWebsiteCode.get(s).getElementsByClass("list detail eplist").first();
+            while(media.getEpisodes().get(s).size() < episodesDiv.children().size()) {      // While number of episodes in episodes list is less than episodes from div
+                media.getEpisodes().get(s).add(new Episode(media));
             }
-
-            episodeAmount.add(nrEpisodes);
         }
-        media.setNrEpisodesPerSeason(episodeAmount);
     }
 
     private void fetchNrEpisodes() {
-        int nrEpisodes = 0;
-        for (Integer nrEpisodesPerSeason : media.getNrEpisodesPerSeason()) {
-            nrEpisodes += nrEpisodesPerSeason;
+        if(!media.isSeries()) {
+            media.setNrEpisodes(0);
         }
+
+        int nrEpisodes = 0;
+        if(nrEpisodes == 0) {
+            for (ArrayList<Episode> season : media.getEpisodes()) {
+                nrEpisodes += season.size();
+            }
+        }
+
         media.setNrEpisodes(nrEpisodes);
     }
 
     private void fetchEpisodeInfo() {
 
-        ArrayList<ArrayList<String>> episodeUrls = new ArrayList<>();
-        ArrayList<ArrayList<String>> episodeNames = new ArrayList<>();
-        ArrayList<ArrayList<String>> episodeRatings = new ArrayList<>();
-
         // Loop through each season
-        for (int i = 0; i < media.getNrSeasons(); i++) {
-
-            ArrayList<String> seasonEpisodeUrls = new ArrayList<>();
-            ArrayList<String> seasonEpisodeNames = new ArrayList<>();
-            ArrayList<String> seasonEpisodeRatings = new ArrayList<>();
+        for (int s = 0; s < media.getNrSeasons(); s++) {
 
             // Loop through each episode in the season
-            Element episodesDiv = seasonsWebsiteCode.get(i).getElementsByClass("list detail eplist").first();
-            for(Element episodeDiv : episodesDiv.children()) {
+            Element episodesDiv = seasonsWebsiteCode.get(s).getElementsByClass("list detail eplist").first();
+            for(int e = 0; e < episodesDiv.children().size(); e++) {
+
+                // SET SEASON AND EPISODE NUMBER
+                media.getEpisodes().get(s).get(e).setSeasonNr(s+1);
+                media.getEpisodes().get(s).get(e).setEpisodeNr(e+1);
+
                 // URLs
-                String url = episodeDiv.select("strong").select("a").attr("abs:href");
-                seasonEpisodeUrls.add(url);
+                String url = episodesDiv.child(e).select("strong").select("a").attr("abs:href");
+                media.getEpisodes().get(s).get(e).setUrl(url);
 
                 // NAMES
-                String name = episodeDiv.select("strong").select("a").text();
-                seasonEpisodeNames.add(name);
+                String name = episodesDiv.child(e).select("strong").select("a").text();
+                media.getEpisodes().get(s).get(e).setName(name);
 
                 // RATINGS
                 String rating;
-                if(episodeDiv.getElementsByClass("ipl-rating-star__rating").first() == null) {            // If no rating exists
+                if(episodesDiv.child(e).getElementsByClass("ipl-rating-star__rating").first() == null) {            // If no rating exists
                     rating = "NA";
                 }
                 else {
-                    rating = episodeDiv.getElementsByClass("ipl-rating-star__rating").first().text();    // Gets all divs with an episode rating
-                    rating = rating.substring(0, 3);                                                                // Cuts off excess rating information
+                    rating = episodesDiv.child(e).getElementsByClass("ipl-rating-star__rating").first().text();    // Gets all divs with an episode rating
+                    rating = rating.substring(0, 3);                                                                          // Cuts off excess rating information
                 }
-                seasonEpisodeRatings.add(rating);                                                                   // Adds rating to list
+                media.getEpisodes().get(s).get(e).setRating(rating);                                                          // Adds rating to list
             }
-
-            // Add each season to total list
-            episodeUrls.add(seasonEpisodeUrls);
-            episodeNames.add(seasonEpisodeNames);
-            episodeRatings.add(seasonEpisodeRatings);
         }
-
-        // Replace null list in media class with new total list
-        media.setEpisodeUrls(episodeUrls);
-        media.setEpisodeNames(episodeNames);
-        media.setEpisodeRatings(episodeRatings);
     }
 }

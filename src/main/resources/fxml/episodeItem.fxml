@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="72.0" prefWidth="400.0" type="AnchorPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="72.0" prefWidth="500.0" type="AnchorPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label fx:id="episodeNrLabel" layoutX="10.0" text="EP23">
          <font>
@@ -39,5 +39,15 @@
             <Font size="20.0" />
          </font>
       </Label>
+      <ToggleButton fx:id="episodeLengthToggleButton" layoutX="208.0" layoutY="10.0" mnemonicParsing="false" onMousePressed="#onPressEpisodeLengthToggleButton" prefHeight="25.0" prefWidth="80.0" text="Show Length">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </ToggleButton>
+      <ImageView fx:id="loadingImageView" fitHeight="25.0" fitWidth="25.0" layoutX="295.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/loading.gif" />
+         </image>
+      </ImageView>
    </children>
 </fx:root>

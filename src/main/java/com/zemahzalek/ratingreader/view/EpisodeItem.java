@@ -1,6 +1,7 @@
 package com.zemahzalek.ratingreader.view;
 
-import com.zemahzalek.ratingreader.model.Media;
+import com.zemahzalek.ratingreader.model.Episode;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -9,6 +10,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
@@ -16,15 +18,15 @@ import java.io.IOException;
 public class EpisodeItem extends AnchorPane {
 
     private ScrollPane rootNode;
-    private Media media;
-    private int season;
-    private int episodeNr;
+    private Episode episode;
     @FXML private Label episodeNrLabel;
     @FXML private Label ratingLabel;
     @FXML private ToggleButton episodeNameToggleButton;
     @FXML private Label episodeNameLabel;
+    @FXML private ToggleButton episodeLengthToggleButton;
+    @FXML private ImageView loadingImageView;
 
-    public EpisodeItem(Node rootNode, Media media, int season, int episodeNr, String rating) {
+    public EpisodeItem(Node rootNode, Episode episode) {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/episodeItem.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
@@ -36,20 +38,23 @@ public class EpisodeItem extends AnchorPane {
         }
 
         this.rootNode = (ScrollPane) rootNode;
-        this.media = media;
-        this.season = season;
-        this.episodeNr = episodeNr;
+        this.episode = episode;
         init();
 
-        episodeNrLabel.setText("EP" + String.valueOf(episodeNr));
+        episodeNrLabel.setText("EP" + episode.getEpisodeNr());
         episodeNameLabel.setVisible(false);
-        ratingLabel.setText(rating);
+        ratingLabel.setText(episode.getRating());
+        loadingImageView.setVisible(false);
 
         // Change background color
-        if(episodeNr % 2 == 0) {
+        if(episode.getEpisodeNr() % 2 == 0) {
             setStyle("-fx-background-color: #e9e9e9");
         } else {
             setStyle("-fx-background-color: #e3e3e3");
+        }
+
+        if(episode.getLength() != null) {
+            displayLength(episode.getLength());
         }
     }
 
@@ -63,13 +68,15 @@ public class EpisodeItem extends AnchorPane {
         });
     }
 
-    private String getEpisodeName() {
-        return media.getEpisodeNames().get(season-1).get(episodeNr-1);
-    }
-
     private void removeFocus() {
         // Sets focus to root anchor pane instead of pressed node
         rootNode.getParent().requestFocus();
+    }
+
+    private void displayLength(String lengthText) {
+        episodeLengthToggleButton.setDisable(true);
+        episodeLengthToggleButton.setStyle("-fx-opacity: 1.0; -fx-background-color: lightgray;");        // Resets opacity change when nodes are disabled.
+        episodeLengthToggleButton.setText(lengthText);
     }
 
     // -------- FXML -------- //
@@ -81,9 +88,47 @@ public class EpisodeItem extends AnchorPane {
         // Else do opposite
         if(!episodeNameToggleButton.isSelected()) {
             episodeNameLabel.setVisible(true);
-            episodeNameLabel.setText(getEpisodeName());
+            episodeNameLabel.setText(episode.getName());
         } else {
             episodeNameLabel.setVisible(false);
+        }
+    }
+
+    @FXML
+    private void onPressEpisodeLengthToggleButton() {
+        removeFocus();
+
+        // Do not start new thread if length already has been fetched
+        if(episode.getLength() != null) {
+            displayLength(episode.getLength());
+        } else {
+            displayLength("Loading...");
+            loadingImageView.setVisible(true);
+
+            // New thread where the length fetch occurs to avoid freezing the JavaFX Application thread
+            new Thread(new GetLengthRunnable()).start();
+        }
+    }
+
+    // ------------------  ------------------ //
+
+    private class GetLengthRunnable implements Runnable {
+
+        @Override
+        public void run() {
+
+            // Fetch length
+            try {
+                episode.fetchLength();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            // Is run after length is fetched.
+            Platform.runLater(() -> {
+                episodeLengthToggleButton.setText(episode.getLength());
+                loadingImageView.setVisible(false);
+            });
         }
     }
 }

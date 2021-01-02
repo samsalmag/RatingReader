@@ -6,17 +6,17 @@ public class Media {
 
     private String name;
     private MediaType type;
+    private String category;
     private int releaseYear;
+    private String length;
     private int nrSeasons;
     private int nrEpisodes;
-    private ArrayList<Integer> nrEpisodesPerSeason;
-    private ArrayList<ArrayList<String>> episodeUrls;
-    private ArrayList<ArrayList<String>> episodeNames;
-    private ArrayList<ArrayList<String>> episodeRatings;
+    private ArrayList<ArrayList<Episode>> episodes;
 
     public boolean isSeries() {
         return type.equals(MediaType.SERIES) || type.equals(MediaType.MINISERIES);
     }
+
 
     // ---------------------------- GETTERS ---------------------------- //
     public String getName() {
@@ -27,11 +27,22 @@ public class Media {
         return type;
     }
 
+    public String getCategory() {
+        return category;
+    }
+
     public int getReleaseYear() {
         return releaseYear;
     }
 
+    public String getLength() {
+        return length;
+    }
+
     public int getNrSeasons() {
+        if(!isSeries()) {
+            return 0;
+        }
         return nrSeasons;
     }
 
@@ -39,22 +50,9 @@ public class Media {
         return nrEpisodes;
     }
 
-    public ArrayList<Integer> getNrEpisodesPerSeason() {
-        return nrEpisodesPerSeason;
+    public ArrayList<ArrayList<Episode>> getEpisodes() {
+        return episodes;
     }
-
-    public ArrayList<ArrayList<String>> getEpisodeUrls() {
-        return episodeUrls;
-    }
-
-    public ArrayList<ArrayList<String>> getEpisodeNames() {
-        return episodeNames;
-    }
-
-    public ArrayList<ArrayList<String>> getEpisodeRatings() {
-        return episodeRatings;
-    }
-
 
     // ---------------------------- SETTERS ---------------------------- //
     public void setName(String name) {
@@ -65,8 +63,16 @@ public class Media {
         this.type = type;
     }
 
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
     public void setReleaseYear(int releaseYear) {
         this.releaseYear = releaseYear;
+    }
+
+    public void setLength(String length) {
+        this.length = length;
     }
 
     public void setNrSeasons(int nrSeasons) {
@@ -77,19 +83,7 @@ public class Media {
         this.nrEpisodes = nrEpisodes;
     }
 
-    public void setNrEpisodesPerSeason(ArrayList<Integer> nrEpisodesPerSeason) {
-        this.nrEpisodesPerSeason = nrEpisodesPerSeason;
-    }
-
-    public void setEpisodeUrls(ArrayList<ArrayList<String>> episodeUrls) {
-        this.episodeUrls = episodeUrls;
-    }
-
-    public void setEpisodeNames(ArrayList<ArrayList<String>> episodeNames) {
-        this.episodeNames = episodeNames;
-    }
-
-    public void setEpisodeRatings(ArrayList<ArrayList<String>> episodeRatings) {
-        this.episodeRatings = episodeRatings;
+    public void setEpisodes(ArrayList<ArrayList<Episode>> episodes) {
+        this.episodes = episodes;
     }
 }

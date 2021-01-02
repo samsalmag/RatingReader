@@ -20,7 +20,7 @@ public class RatingReader extends Application {
     public void start(Stage stage) throws Exception {
         Parent rootFXML = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/root.fxml"));
         Scene scene = new Scene(rootFXML, 700, 500);
-        stage.setMinWidth(650);
+        stage.setMinWidth(500 * 1);
         stage.setMinHeight(400);
         String title = readPropertiesFile("dev.name") + " " + readPropertiesFile("dev.version");
         stage.setTitle(title);

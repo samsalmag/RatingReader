@@ -35,7 +35,7 @@
             <Font size="20.0" />
          </font>
       </Label>
-      <Label fx:id="resultTypeLabel1" layoutX="350.0" layoutY="99.0" prefHeight="30.0" prefWidth="330.0" text="Category" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="20.0">
+      <Label fx:id="resultCategoryLabel" layoutX="350.0" layoutY="99.0" prefHeight="30.0" prefWidth="330.0" text="Category" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="20.0">
          <font>
             <Font size="20.0" />
          </font>
