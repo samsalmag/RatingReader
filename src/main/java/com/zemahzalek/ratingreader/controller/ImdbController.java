@@ -143,11 +143,9 @@ public class ImdbController {
         media.setReleaseYear(Integer.parseInt(releaseYear));
     }
 
-    // TODO
     private void fetchMediaLength() {
         String length = mainWebsiteCode.getElementsByClass("subtext").first().select("time").text();        // Gets first "subtext" div and selects "time" element.
         media.setLength(length);
-        System.out.println(length);
     }
 
     private void fetchNrSeasons() {
