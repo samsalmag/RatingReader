@@ -2,8 +2,6 @@ package com.zemahzalek.ratingreader.view;
 
 import com.zemahzalek.ratingreader.model.Episode;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -21,9 +19,9 @@ public class EpisodeItem extends AnchorPane {
     private Episode episode;
     @FXML private Label episodeNrLabel;
     @FXML private Label ratingLabel;
-    @FXML private ToggleButton episodeNameToggleButton;
-    @FXML private Label episodeNameLabel;
-    @FXML private ToggleButton episodeLengthToggleButton;
+    @FXML private ToggleButton nameToggleButton;
+    @FXML private Label nameLabel;
+    @FXML private Label lengthLabel;
     @FXML private ImageView loadingImageView;
 
     public EpisodeItem(Node rootNode, Episode episode) {
@@ -39,12 +37,11 @@ public class EpisodeItem extends AnchorPane {
 
         this.rootNode = (ScrollPane) rootNode;
         this.episode = episode;
-        init();
+        displayLength();
 
         episodeNrLabel.setText("EP" + episode.getEpisodeNr());
-        episodeNameLabel.setVisible(false);
+        nameLabel.setVisible(false);
         ratingLabel.setText(episode.getRating());
-        loadingImageView.setVisible(false);
 
         // Change background color
         if(episode.getEpisodeNr() % 2 == 0) {
@@ -52,20 +49,6 @@ public class EpisodeItem extends AnchorPane {
         } else {
             setStyle("-fx-background-color: #e3e3e3");
         }
-
-        if(episode.getLength() != null) {
-            displayLength(episode.getLength());
-        }
-    }
-
-    private void init() {
-        setPrefWidth(rootNode.getWidth());
-        rootNode.widthProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observableValue, Number oldValue, Number newValue) {
-                setPrefWidth(newValue.doubleValue());
-            }
-        });
     }
 
     private void removeFocus() {
@@ -73,10 +56,24 @@ public class EpisodeItem extends AnchorPane {
         rootNode.getParent().requestFocus();
     }
 
-    private void displayLength(String lengthText) {
-        episodeLengthToggleButton.setDisable(true);
-        episodeLengthToggleButton.setStyle("-fx-opacity: 1.0; -fx-background-color: lightgray;");        // Resets opacity change when nodes are disabled.
-        episodeLengthToggleButton.setText(lengthText);
+    private void displayLength() {
+        // Do not start new thread if length already has been fetched
+        if(episode.getLength() != null) {
+            lengthLabel.setText(episode.getLength());
+            loadingImageView.setVisible(false);
+            lengthLabel.setLayoutX(getLengthLabelXPosition());
+        }
+        else {
+            lengthLabel.setText("");
+            loadingImageView.setVisible(true);
+
+            // New thread where the length fetch occurs to avoid freezing the JavaFX Application thread
+            new Thread(new GetLengthRunnable()).start();
+        }
+    }
+
+    private double getLengthLabelXPosition() {
+        return nameToggleButton.getLayoutX() + nameToggleButton.getPrefWidth() - 10;
     }
 
     // -------- FXML -------- //
@@ -86,27 +83,11 @@ public class EpisodeItem extends AnchorPane {
         removeFocus();
         // If toggle is not selected; set episode name to visible on button press.
         // Else do opposite
-        if(!episodeNameToggleButton.isSelected()) {
-            episodeNameLabel.setVisible(true);
-            episodeNameLabel.setText(episode.getName());
+        if(!nameToggleButton.isSelected()) {
+            nameLabel.setVisible(true);
+            nameLabel.setText(episode.getName());
         } else {
-            episodeNameLabel.setVisible(false);
-        }
-    }
-
-    @FXML
-    private void onPressEpisodeLengthToggleButton() {
-        removeFocus();
-
-        // Do not start new thread if length already has been fetched
-        if(episode.getLength() != null) {
-            displayLength(episode.getLength());
-        } else {
-            displayLength("Loading...");
-            loadingImageView.setVisible(true);
-
-            // New thread where the length fetch occurs to avoid freezing the JavaFX Application thread
-            new Thread(new GetLengthRunnable()).start();
+            nameLabel.setVisible(false);
         }
     }
 
@@ -126,8 +107,9 @@ public class EpisodeItem extends AnchorPane {
 
             // Is run after length is fetched.
             Platform.runLater(() -> {
-                episodeLengthToggleButton.setText(episode.getLength());
+                lengthLabel.setText(episode.getLength());
                 loadingImageView.setVisible(false);
+                lengthLabel.setLayoutX(getLengthLabelXPosition());
             });
         }
     }

@@ -1,5 +1,6 @@
 package com.zemahzalek.ratingreader.view;
 
+import com.zemahzalek.ratingreader.util.ViewConstants;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -19,14 +20,22 @@ public class RatingReader extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         Parent rootFXML = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/root.fxml"));
-        Scene scene = new Scene(rootFXML, 700, 500);
-        stage.setMinWidth(500 * 1);
-        stage.setMinHeight(400);
-        String title = readPropertiesFile("dev.name") + " " + readPropertiesFile("dev.version");
-        stage.setTitle(title);
+        Scene scene = new Scene(rootFXML, ViewConstants.INITIAL_WIDTH, ViewConstants.INITIAL_HEIGHT);
 
         stage.setScene(scene);
         stage.show();
+
+        String title = readPropertiesFile("dev.name") + " " + readPropertiesFile("dev.version");
+        stage.setTitle(title);
+
+        // Decoration width and height (window border width and height)
+        double dWidth = scene.getWindow().getWidth()-scene.getWidth();
+        double dHeight = scene.getWindow().getHeight()-scene.getHeight();
+
+        stage.setMinWidth(ViewConstants.MIN_WIDTH + dWidth + ViewConstants.RESULT_SCROLLPANE_SCROLLBAR_WIDTH);
+        stage.setMinHeight(ViewConstants.MIN_HEIGHT + dHeight);
+        stage.setMaxWidth(ViewConstants.MAX_WIDTH + dWidth + ViewConstants.RESULT_SCROLLPANE_SCROLLBAR_WIDTH);
+        stage.setMaxHeight(ViewConstants.MAX_HEIGHT + dHeight);
     }
 
     private String readPropertiesFile(String key) throws IOException {

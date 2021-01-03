@@ -1,16 +1,14 @@
 package com.zemahzalek.ratingreader.controller;
 
 import com.zemahzalek.ratingreader.model.Episode;
+import com.zemahzalek.ratingreader.util.ViewConstants;
 import com.zemahzalek.ratingreader.view.EpisodeItem;
 import com.zemahzalek.ratingreader.model.Media;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 
@@ -35,12 +33,15 @@ public class Controller {
 
     public Controller() {
         init();
+
     }
 
+    // Init for FXML objects
     @FXML
     private void initialize() {
         initSeasonComboBox();
         initSearchTextField();
+        initResultFlowPane();
         loadingLabel.setVisible(false);
         resultNameLabel.setVisible(false);
         resultTypeLabel.setVisible(false);
@@ -59,17 +60,14 @@ public class Controller {
         seasonComboBox.setDisable(true);
 
         // Adds ChangeListener to check for value change
-        seasonComboBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue observableValue, String oldValue, String newValue) {
-                if(newValue == null || oldValue == null) {
-                    return;
-                }
+        seasonComboBox.getSelectionModel().selectedItemProperty().addListener((ChangeListener<String>) (observableValue, oldValue, newValue) -> {
+            if(newValue == null || oldValue == null) {
+                return;
+            }
 
-                // If new season choice is not equal to already selected one
-                if(!newValue.equals(oldValue)) {
-                    updateResults(Integer.valueOf(newValue));   // Update results on season change
-                }
+            // If new season choice is not equal to already selected one
+            if(!newValue.equals(oldValue)) {
+                updateResults(Integer.valueOf(newValue));   // Update results on season change
             }
         });
     }
@@ -77,16 +75,21 @@ public class Controller {
     private void initSearchTextField() {
 
         // Add event so ENTER key can be pressed to search
-        searchTextField.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent keyEvent) {
-                // If key pressed was enter
-                if(keyEvent.getCode().equals(KeyCode.ENTER)) {
-                    // Do search
-                    search(searchTextField.getText());
-                }
+        searchTextField.setOnKeyPressed(keyEvent -> {
+            // If key pressed was enter
+            if(keyEvent.getCode().equals(KeyCode.ENTER)) {
+                // Do search
+                search(searchTextField.getText());
             }
         });
+    }
+
+    private void initResultFlowPane() {
+        resultFlowPane.setPrefWidth(resultScrollPane.getWidth() - ViewConstants.RESULT_SCROLLPANE_SCROLLBAR_WIDTH);
+
+        // Add listener to scrollpane's width so resultFlowPane will change width correctly (to scrollpane's viewport width (scrollbar excluded))
+        resultScrollPane.widthProperty().addListener((observableValue, oldValue, newValue) ->
+                resultFlowPane.setPrefWidth(resultScrollPane.getWidth() - ViewConstants.RESULT_SCROLLPANE_SCROLLBAR_WIDTH));
     }
 
     // ------------------  ------------------ //

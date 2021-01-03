@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="rootAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.zemahzalek.ratingreader.controller.Controller">
+<AnchorPane fx:id="rootAnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="1050.0" prefHeight="700.0" prefWidth="1050.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.zemahzalek.ratingreader.controller.Controller">
    <children>
       <TextField fx:id="searchTextField" layoutX="20.0" layoutY="22.0" prefHeight="30.0" prefWidth="200.0" />
       <Button fx:id="searchButton" layoutX="234.0" layoutY="22.0" mnemonicParsing="false" onMousePressed="#onPressSearchButton" prefHeight="30.0" prefWidth="60.0" text="Search">
@@ -30,12 +30,12 @@
             <Font name="System Bold" size="25.0" />
          </font>
       </Label>
-      <Label fx:id="resultTypeLabel" layoutX="350.0" layoutY="62.0" prefHeight="30.0" prefWidth="330.0" text="Type" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="20.0">
+      <Label fx:id="resultTypeLabel" layoutX="350.0" layoutY="84.0" prefHeight="30.0" prefWidth="330.0" text="Type" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="20.0">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <Label fx:id="resultCategoryLabel" layoutX="350.0" layoutY="99.0" prefHeight="30.0" prefWidth="330.0" text="Category" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="20.0">
+      <Label fx:id="resultCategoryLabel" layoutX="350.0" layoutY="54.0" prefHeight="30.0" prefWidth="330.0" text="Category" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="20.0">
          <font>
             <Font size="20.0" />
          </font>
@@ -52,9 +52,9 @@
             <Font name="System Bold" size="19.0" />
          </font>
       </Label>
-      <ScrollPane fx:id="resultScrollPane" focusTraversable="false" hbarPolicy="NEVER" layoutY="143.0" onMousePressed="#removeFocus" prefHeight="347.0" prefWidth="700.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="143.0">
+      <ScrollPane fx:id="resultScrollPane" focusTraversable="false" hbarPolicy="NEVER" layoutY="200.0" onMousePressed="#removeFocus" vbarPolicy="ALWAYS" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="200.0">
          <content>
-            <FlowPane fx:id="resultFlowPane" prefHeight="200.0" prefWidth="200.0" />
+            <FlowPane fx:id="resultFlowPane" columnHalignment="CENTER" prefHeight="200.0" prefWrapLength="0.0" />
          </content>
       </ScrollPane>
    </children>

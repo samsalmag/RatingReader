@@ -3,6 +3,7 @@ package com.zemahzalek.ratingreader.controller;
 import com.zemahzalek.ratingreader.model.Episode;
 import com.zemahzalek.ratingreader.model.Media;
 import com.zemahzalek.ratingreader.model.MediaType;
+import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -60,12 +61,29 @@ public class ImdbController {
 
         ArrayList<Document> websiteCodes = new ArrayList<>();
         for(int i = 1; i <= media.getNrSeasons(); i++) {
-            String IMDbSeasonURl = mainUrl + "episodes?season=" + i;   // URL for the specific shows season
-            Document websiteCode = Jsoup.connect(IMDbSeasonURl).get();
-            websiteCodes.add(websiteCode);
-        }
-        seasonsWebsiteCode = websiteCodes;
 
+            String imdbSeasonURl = mainUrl + "episodes?season=" + i;   // URL for the specific shows season
+            Document websiteCode = Jsoup.connect(imdbSeasonURl).get();
+            websiteCodes.add(websiteCode);
+
+//            try {
+//                String imdbSeasonURl = mainUrl + "episodes?season=" + i;   // URL for the specific shows season
+//                Document websiteCode = Jsoup.connect(imdbSeasonURl).get();
+//                websiteCodes.add(websiteCode);
+//            } catch (HttpStatusException e) {
+//
+//                String imdbEpisodesURl = mainUrl + "episodes?";
+//                Document episodesWebsiteCode = Jsoup.connect(imdbEpisodesURl).get();
+//                Elements years = episodesWebsiteCode.getElementById("byYear").children();
+//
+//                for (Element year : years) {
+//                    Document yearWebsiteCode = Jsoup.connect(mainUrl + "episodes?year=" + year.text()).get();
+//                    websiteCodes.add(yearWebsiteCode);
+//                }
+            }
+//        }
+
+        seasonsWebsiteCode = websiteCodes;
     }
 
     private void fetchMediaName() {

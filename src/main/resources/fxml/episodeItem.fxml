@@ -7,47 +7,42 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="72.0" prefWidth="500.0" type="AnchorPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="63.0" prefWidth="350.0" type="AnchorPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label fx:id="episodeNrLabel" layoutX="10.0" text="EP23">
+      <Label fx:id="episodeNrLabel" layoutX="6.0" text="EP23">
          <font>
-            <Font size="30.0" />
+            <Font name="System Bold" size="25.0" />
          </font>
       </Label>
-      <ToggleButton fx:id="episodeNameToggleButton" layoutX="84.0" layoutY="10.0" mnemonicParsing="false" onMousePressed="#onPressEpisodeNameToggleButton" prefHeight="25.0" prefWidth="116.0" text="Show Episode Name">
+      <ToggleButton fx:id="nameToggleButton" layoutX="71.0" layoutY="6.0" mnemonicParsing="false" onMousePressed="#onPressEpisodeNameToggleButton" prefHeight="25.0" prefWidth="116.0" text="Show Episode Name">
          <font>
             <Font size="11.0" />
          </font>
       </ToggleButton>
-      <Label fx:id="episodeNameLabel" layoutX="11.0" layoutY="38.0" prefHeight="30.0" prefWidth="223.0" text="Episode Name" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="22.0">
+      <Label fx:id="nameLabel" layoutX="7.0" layoutY="30.0" prefHeight="30.0" prefWidth="267.0" text="Episode Name" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="76.0">
          <font>
-            <Font size="19.0" />
+            <Font size="17.0" />
          </font>
       </Label>
-      <Label fx:id="ratingLabel" layoutX="258.0" layoutY="15.0" text="9.9" AnchorPane.rightAnchor="103.0">
-         <font>
-            <Font size="30.0" />
-         </font>
-      </Label>
-      <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="303.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="62.0">
+      <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="279.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="21.0">
          <image>
             <Image url="@../images/star.png" />
          </image>
       </ImageView>
-      <Label layoutX="343.0" layoutY="23.0" text="/ 10" AnchorPane.rightAnchor="22.0">
+      <Label fx:id="ratingLabel" layoutX="290.0" layoutY="16.0" text="9.9" AnchorPane.rightAnchor="31.0">
          <font>
-            <Font size="20.0" />
+            <Font size="22.0" />
          </font>
       </Label>
-      <ToggleButton fx:id="episodeLengthToggleButton" layoutX="208.0" layoutY="10.0" mnemonicParsing="false" onMousePressed="#onPressEpisodeLengthToggleButton" prefHeight="25.0" prefWidth="80.0" text="Show Length">
-         <font>
-            <Font size="11.0" />
-         </font>
-      </ToggleButton>
-      <ImageView fx:id="loadingImageView" fitHeight="25.0" fitWidth="25.0" layoutX="295.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../images/loading.gif" />
-         </image>
-      </ImageView>
+      <Label layoutX="323.0" layoutY="31.0" text="/ 10" AnchorPane.rightAnchor="6.0" />
+      <Label fx:id="lengthLabel" layoutX="196.0" layoutY="10.0" text="1h 3min">
+         <graphic>
+            <ImageView fx:id="loadingImageView" fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/loading.gif" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Label>
    </children>
 </fx:root>
