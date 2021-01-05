@@ -1,5 +1,6 @@
 package com.zemahzalek.ratingreader.controller;
 
+import com.zemahzalek.ratingreader.controller.imdb.ImdbController;
 import com.zemahzalek.ratingreader.model.Episode;
 import com.zemahzalek.ratingreader.util.ViewConstants;
 import com.zemahzalek.ratingreader.view.EpisodeItem;
@@ -69,7 +70,14 @@ public class Controller {
 
             // If new season choice is not equal to already selected one
             if(!newValue.equals(oldValue)) {
-                updateResults(Integer.valueOf(newValue));   // Update results on season change
+
+
+                for (String episodeGroup : media.getEpisodeGroups()) {
+                    if(episodeGroup.equals(newValue)) {
+                        updateResults(media.getEpisodeGroups().indexOf(episodeGroup));     // Update results on episode group change
+                        return;
+                    }
+                }
             }
         });
     }
@@ -96,7 +104,6 @@ public class Controller {
     // ------------------  ------------------ //
 
     private void search(String searchTerm) {
-        System.out.println(previousSearch);
         if(searchTerm.equals("") || searchTerm == null) {
             return;
         }
@@ -115,12 +122,12 @@ public class Controller {
         previousSearch = searchTextField.getText();     // Set previous search text
     }
 
-    private void updateResults(int season) {
+    private void updateResults(int episodeGroup) {
         resultFlowPane.getChildren().clear();           // Remove all children
 
         // Do only if media search is a TV Series
         if(media.isSeries()) {
-            for (Episode episode : media.getEpisodes().get(season-1)) {  // -1 because of index out of bounds
+            for (Episode episode : media.getEpisodes().get(episodeGroup)) {
                 resultFlowPane.getChildren().add(new EpisodeItem(resultScrollPane, episode));
             }
         }
@@ -133,8 +140,8 @@ public class Controller {
 
     private void populateSeasonComboBox() {
         seasonComboBox.getItems().clear();                  // Empty combo box
-        for (int i = 1; i <= media.getNrSeasons(); i++) {
-            seasonComboBox.getItems().add(String.valueOf(i));
+        for (String episodeGroup : media.getEpisodeGroups()) {
+            seasonComboBox.getItems().add(episodeGroup);
         }
     }
 
@@ -149,7 +156,6 @@ public class Controller {
     @FXML
     private void onPressSearchButton() {
         removeFocus();
-        System.out.println(searching);
         if(!searching) {
             search(searchTextField.getText());
         }
@@ -184,7 +190,7 @@ public class Controller {
                 typeLabel.setText(media.getType().getName());
                 categoryLabel.setText(media.getCategory());
                 lengthLabel.setText(media.getLength());
-                updateResults(1);       // Get season 1 on search
+                updateResults(0);       // Get episode group 1 on search
 
                 // Only do this if media is a TV Series
                 if(media.isSeries()) {

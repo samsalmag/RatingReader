@@ -9,8 +9,10 @@ public class Media {
     private String category;
     private int releaseYear;
     private String length;
-    private int nrSeasons;
+
+    private EpisodeGroupType episodeGroupType;
     private int nrEpisodes;
+    private ArrayList<String> episodeGroups;
     private ArrayList<ArrayList<Episode>> episodes;
 
     public boolean isSeries() {
@@ -39,20 +41,22 @@ public class Media {
         return length;
     }
 
-    public int getNrSeasons() {
-        if(!isSeries()) {
-            return 0;
-        }
-        return nrSeasons;
+    public EpisodeGroupType getEpisodeGroupType() {
+        return episodeGroupType;
     }
 
     public int getNrEpisodes() {
         return nrEpisodes;
     }
 
+    public ArrayList<String> getEpisodeGroups() {
+        return episodeGroups;
+    }
+
     public ArrayList<ArrayList<Episode>> getEpisodes() {
         return episodes;
     }
+
 
     // ---------------------------- SETTERS ---------------------------- //
     public void setName(String name) {
@@ -75,12 +79,16 @@ public class Media {
         this.length = length;
     }
 
-    public void setNrSeasons(int nrSeasons) {
-        this.nrSeasons = nrSeasons;
+    public void setEpisodeGroupType(EpisodeGroupType episodeGroupType) {
+        this.episodeGroupType = episodeGroupType;
     }
 
     public void setNrEpisodes(int nrEpisodes) {
         this.nrEpisodes = nrEpisodes;
+    }
+
+    public void setEpisodeGroups(ArrayList<String> episodeGroups) {
+        this.episodeGroups = episodeGroups;
     }
 
     public void setEpisodes(ArrayList<ArrayList<Episode>> episodes) {

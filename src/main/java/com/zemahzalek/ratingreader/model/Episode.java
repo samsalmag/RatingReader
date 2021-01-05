@@ -9,7 +9,7 @@ import java.io.IOException;
 public class Episode {
 
     private Media media;
-    private int seasonNr;
+    private int episodeGroupNr;
     private int episodeNr;
     private String url;
     private String name;
@@ -32,8 +32,8 @@ public class Episode {
         return media;
     }
 
-    public int getSeasonNr() {
-        return seasonNr;
+    public int getEpisodeGroupNr() {
+        return episodeGroupNr;
     }
 
     public int getEpisodeNr() {
@@ -57,8 +57,8 @@ public class Episode {
     }
 
     // ---------------------------- SETTERS ---------------------------- //
-    public void setSeasonNr(int seasonNr) {
-        this.seasonNr = seasonNr;
+    public void setEpisodeGroupNr(int episodeGroupNr) {
+        this.episodeGroupNr = episodeGroupNr;
     }
 
     public void setEpisodeNr(int episodeNr) {
