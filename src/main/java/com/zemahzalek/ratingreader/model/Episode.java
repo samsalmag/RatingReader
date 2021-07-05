@@ -5,6 +5,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Episode {
 
@@ -15,6 +16,8 @@ public class Episode {
     private String name;
     private String rating;
     private String length;
+    private String airdate;
+    private String nrRatings;
 
     public Episode(Media media) {
         this.media = media;
@@ -22,8 +25,9 @@ public class Episode {
 
     public void fetchLength() throws IOException {
         Document websiteCode = Jsoup.connect(url).get();
-        Element subtextInformationDiv = websiteCode.getElementsByClass("subtext").first();
-        String length = subtextInformationDiv.select("time").text();
+        Element subtextInformationDiv = websiteCode.getElementsByClass("TitleBlock__TitleMetaDataContainer-sc-1nlhx7j-4 cgfrOx").first();
+        //Element subtextInformationDiv2 = subtextInformationDiv.get(0);
+        //String length = subtextInformationDiv.getAllElements().last().text();
         this.length = length;
     }
 
@@ -56,6 +60,14 @@ public class Episode {
         return length;
     }
 
+    public String getAirdate() {
+        return airdate;
+    }
+
+    public String getNrRatings() {
+        return nrRatings;
+    }
+
     // ---------------------------- SETTERS ---------------------------- //
     public void setEpisodeGroupNr(int episodeGroupNr) {
         this.episodeGroupNr = episodeGroupNr;
@@ -75,5 +87,13 @@ public class Episode {
 
     public void setRating(String rating) {
         this.rating = rating;
+    }
+
+    public void setAirdate(String airdate) {
+        this.airdate = airdate;
+    }
+
+    public void setNrRatings(String nrRatings) {
+        this.nrRatings = nrRatings;
     }
 }

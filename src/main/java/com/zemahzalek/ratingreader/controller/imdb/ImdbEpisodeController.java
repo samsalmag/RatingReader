@@ -103,17 +103,18 @@ public class ImdbEpisodeController {
             Element episodesDiv = episodeGroupsWebsiteCode.get(eg).getElementsByClass("list detail eplist").first();
             for(int e = 0; e < episodesDiv.children().size(); e++) {
 
+                Episode episode = media.getEpisodes().get(eg).get(e);
                 // SET EPISODE GROUP AND EPISODE NUMBER
-                media.getEpisodes().get(eg).get(e).setEpisodeGroupNr(eg+1);
-                media.getEpisodes().get(eg).get(e).setEpisodeNr(e+1);
+                episode.setEpisodeGroupNr(eg+1);
+                episode.setEpisodeNr(e+1);
 
                 // URLs
                 String url = episodesDiv.child(e).select("strong").select("a").attr("abs:href");
-                media.getEpisodes().get(eg).get(e).setUrl(url);
+                episode.setUrl(url);
 
                 // NAMES
                 String name = episodesDiv.child(e).select("strong").select("a").text();
-                media.getEpisodes().get(eg).get(e).setName(name);
+                episode.setName(name);
 
                 // RATINGS
                 Element ratingElement = episodesDiv.child(e).getElementsByClass("ipl-rating-star__rating").first();
@@ -127,8 +128,20 @@ public class ImdbEpisodeController {
                 else {
                     rating = ratingElement.text().substring(0, 3);          // Cuts off excess rating information
                 }
+                episode.setRating(rating);        // Adds rating to list
 
-                media.getEpisodes().get(eg).get(e).setRating(rating);        // Adds rating to list
+                // AIRDATE
+                String airdate = episodesDiv.child(e).getElementsByClass("airdate").first().text();
+                episode.setAirdate(airdate);
+
+                // NUMBER OF RATINGS
+                Element nrRatingsElement = episodesDiv.child(e).getElementsByClass("ipl-rating-star__total-votes").first();
+                if(nrRatingsElement != null) {
+                    String nrRatings = nrRatingsElement.text();
+                    nrRatings = nrRatings.replaceAll("[()]", "").replaceAll(",", " ");      // Remove parentheses and replace ',' with space
+                    episode.setNrRatings(nrRatings);
+                }
+
             }
         }
     }

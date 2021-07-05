@@ -1,6 +1,7 @@
 package com.zemahzalek.ratingreader.controller;
 
 import com.zemahzalek.ratingreader.controller.imdb.ImdbController;
+import com.zemahzalek.ratingreader.controller.imdb.OldImdbController;
 import com.zemahzalek.ratingreader.model.Episode;
 import com.zemahzalek.ratingreader.util.ViewConstants;
 import com.zemahzalek.ratingreader.view.EpisodeItem;
@@ -9,9 +10,11 @@ import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.StackPane;
 
 import java.io.IOException;
 
@@ -27,12 +30,20 @@ public class Controller {
     @FXML private Button searchButton;
     @FXML private ComboBox seasonComboBox;
     @FXML private Label loadingLabel;
+    @FXML private ImageView ratingImageView;
     @FXML private Label nameLabel;
+    @FXML private Label yearLabel;
     @FXML private Label typeLabel;
     @FXML private Label categoryLabel;
     @FXML private Label lengthLabel;
+    @FXML private StackPane stackPane;
     @FXML private ScrollPane resultScrollPane;
     @FXML private FlowPane resultFlowPane;
+    @FXML private Label stackPaneTextLabel;
+    @FXML private AnchorPane stackPaneTextAnchorPane;
+
+    String initText = "Search for a media above";
+    String noEpisodesText = "No episodes exists for this media";
 
     public Controller() {
         init();
@@ -45,10 +56,14 @@ public class Controller {
         initSearchTextField();
         initResultFlowPane();
         loadingLabel.setVisible(false);
+        ratingImageView.setVisible(false);
         nameLabel.setVisible(false);
+        yearLabel.setVisible(false);
         typeLabel.setVisible(false);
         categoryLabel.setVisible(false);
         lengthLabel.setVisible(false);
+
+        stackPaneTextLabel.setText(initText);
     }
 
     // -------- INIT -------- //
@@ -130,12 +145,46 @@ public class Controller {
             for (Episode episode : media.getEpisodes().get(episodeGroup)) {
                 resultFlowPane.getChildren().add(new EpisodeItem(resultScrollPane, episode));
             }
+
+            stackPaneTextAnchorPane.toBack();
+            stackPaneTextAnchorPane.setVisible(false);
+        } else {
+            stackPaneTextAnchorPane.toFront();
+            stackPaneTextAnchorPane.setVisible(true);
+            stackPaneTextLabel.setText(noEpisodesText);
         }
 
+        ratingImageView.setVisible(true);
         nameLabel.setVisible(true);
+        yearLabel.setVisible(true);
         typeLabel.setVisible(true);
         categoryLabel.setVisible(true);
         lengthLabel.setVisible(true);
+
+        /*
+        // Media has no episode list created (is not a series), show 'noEpisodes' text
+        if(media.getEpisodes() == null) {
+            // Bring stackPane text to front and signal that no episodes exists
+            stackPaneTextAnchorPane.toFront();
+            stackPaneTextAnchorPane.setVisible(true);
+            stackPaneTextLabel.setText(noEpisodesText);
+        }
+        // Else media has episodes list. Check if it is empty, if so show 'noEpisodes' text
+        else {
+            if(media.getEpisodes().get(episodeGroup).isEmpty()) {
+                // Bring stackPane text to front and signal that no episodes exists
+                stackPaneTextAnchorPane.toFront();
+                stackPaneTextAnchorPane.setVisible(true);
+                stackPaneTextLabel.setText(noEpisodesText);
+            }
+            // Else show episodes as usual
+            else {
+                resultScrollPane.toFront();
+                stackPaneTextAnchorPane.setVisible(false);
+            }
+        }
+
+         */
     }
 
     private void populateSeasonComboBox() {
@@ -186,7 +235,8 @@ public class Controller {
             // The UI updater. This is what will happen after media information is gathered. Updater is called below.
             // Runs the UI updater after JavaFX Application thread is done (after the media information is gathered)
             Platform.runLater(() -> {
-                nameLabel.setText(media.getName() + " (" + media.getReleaseYear() + ")");
+                nameLabel.setText(media.getName());
+                yearLabel.setText(String.valueOf(media.getReleaseYear()));
                 typeLabel.setText(media.getType().getName());
                 categoryLabel.setText(media.getCategory());
                 lengthLabel.setText(media.getLength());

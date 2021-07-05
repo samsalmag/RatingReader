@@ -23,6 +23,8 @@ public class EpisodeItem extends AnchorPane {
     @FXML private Label nameLabel;
     @FXML private Label lengthLabel;
     @FXML private ImageView loadingImageView;
+    @FXML private Label airdateLabel;
+    @FXML private Label nrRatingsLabel;
 
     public EpisodeItem(Node rootNode, Episode episode) {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/episodeItem.fxml"));
@@ -42,6 +44,14 @@ public class EpisodeItem extends AnchorPane {
         episodeNrLabel.setText("EP" + episode.getEpisodeNr());
         nameLabel.setVisible(false);
         ratingLabel.setText(episode.getRating());
+        airdateLabel.setText(episode.getAirdate());
+
+        if(episode.getNrRatings() == null) {
+            nrRatingsLabel.setText("");
+        } else {
+            nrRatingsLabel.setText(episode.getNrRatings() + " ratings");
+        }
+
 
         // Change background color
         if(episode.getEpisodeNr() % 2 == 0) {

@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="63.0" prefWidth="350.0" type="AnchorPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="63.0" prefWidth="350.0" type="AnchorPane" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label fx:id="episodeNrLabel" layoutX="6.0" text="EP23">
          <font>
@@ -19,9 +19,9 @@
             <Font size="11.0" />
          </font>
       </ToggleButton>
-      <Label fx:id="nameLabel" layoutX="7.0" layoutY="30.0" prefHeight="30.0" prefWidth="267.0" text="Episode Name" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="76.0">
+      <Label fx:id="nameLabel" layoutX="7.0" layoutY="30.0" prefHeight="30.0" prefWidth="180.0" text="Episode Name" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="163.0">
          <font>
-            <Font size="17.0" />
+            <Font size="15.0" />
          </font>
       </Label>
       <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="279.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="21.0">
@@ -35,7 +35,7 @@
          </font>
       </Label>
       <Label layoutX="323.0" layoutY="31.0" text="/ 10" AnchorPane.rightAnchor="6.0" />
-      <Label fx:id="lengthLabel" layoutX="196.0" layoutY="10.0" text="1h 3min">
+      <Label fx:id="lengthLabel" layoutX="196.0" layoutY="5.0" text="1h 3min">
          <graphic>
             <ImageView fx:id="loadingImageView" fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -44,5 +44,7 @@
             </ImageView>
          </graphic>
       </Label>
+      <Label fx:id="airdateLabel" layoutX="196.0" layoutY="23.0" text="21 Jan. 2021" />
+      <Label fx:id="nrRatingsLabel" layoutX="196.0" layoutY="41.0" text="18 726 ratings" />
    </children>
 </fx:root>

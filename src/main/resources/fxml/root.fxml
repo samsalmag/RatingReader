@@ -9,9 +9,10 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="rootAnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="1050.0" prefHeight="700.0" prefWidth="1050.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.zemahzalek.ratingreader.controller.Controller">
+<AnchorPane fx:id="rootAnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="1050.0" prefHeight="700.0" prefWidth="1050.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.zemahzalek.ratingreader.controller.Controller">
    <children>
       <TextField fx:id="searchTextField" layoutX="20.0" layoutY="22.0" prefHeight="30.0" prefWidth="200.0" />
       <Button fx:id="searchButton" layoutX="234.0" layoutY="22.0" mnemonicParsing="false" onMousePressed="#onPressSearchButton" prefHeight="30.0" prefWidth="60.0" text="Search">
@@ -25,22 +26,32 @@
          </font>
       </Label>
       <ComboBox fx:id="seasonComboBox" layoutX="81.0" layoutY="62.0" prefHeight="30.0" prefWidth="68.0" />
-      <Label fx:id="nameLabel" layoutX="350.0" layoutY="19.0" prefHeight="36.0" prefWidth="330.0" text="Name (year)" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="20.0">
+      <ImageView fx:id="ratingImageView" fitHeight="50.0" fitWidth="50.0" layoutX="347.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/star.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="nameLabel" layoutX="410.0" layoutY="21.0" prefHeight="36.0" prefWidth="618.0" text="Name" textAlignment="CENTER" AnchorPane.leftAnchor="410.0" AnchorPane.rightAnchor="20.0">
          <font>
             <Font name="System Bold" size="25.0" />
          </font>
       </Label>
-      <Label fx:id="typeLabel" layoutX="350.0" layoutY="84.0" prefHeight="30.0" prefWidth="330.0" text="Type" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="20.0">
+      <Label fx:id="yearLabel" layoutX="350.0" layoutY="62.0" prefHeight="30.0" prefWidth="680.0" text="Year" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="20.0">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <Label fx:id="categoryLabel" layoutX="350.0" layoutY="54.0" prefHeight="30.0" prefWidth="330.0" text="Category" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="20.0">
+      <Label fx:id="typeLabel" layoutX="350.0" layoutY="122.0" prefHeight="30.0" prefWidth="330.0" text="Type" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="20.0">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <Label fx:id="lengthLabel" layoutX="350.0" layoutY="114.0" prefHeight="30.0" prefWidth="330.0" text="Length">
+      <Label fx:id="categoryLabel" layoutX="350.0" layoutY="92.0" prefHeight="30.0" prefWidth="330.0" text="Category" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="20.0">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="lengthLabel" layoutX="350.0" layoutY="152.0" prefHeight="30.0" prefWidth="330.0" text="Length" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="20.0">
          <font>
             <Font size="20.0" />
          </font>
@@ -57,10 +68,23 @@
             <Font name="System Bold" size="19.0" />
          </font>
       </Label>
-      <ScrollPane fx:id="resultScrollPane" focusTraversable="false" hbarPolicy="NEVER" layoutY="200.0" onMousePressed="#removeFocus" vbarPolicy="ALWAYS" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="200.0">
-         <content>
-            <FlowPane fx:id="resultFlowPane" columnHalignment="CENTER" prefHeight="200.0" prefWrapLength="0.0" />
-         </content>
-      </ScrollPane>
+      <StackPane fx:id="stackPane" layoutY="200.0" prefHeight="500.0" prefWidth="1050.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="200.0">
+         <children>
+            <ScrollPane fx:id="resultScrollPane" focusTraversable="false" hbarPolicy="NEVER" onMousePressed="#removeFocus" vbarPolicy="ALWAYS">
+               <content>
+                  <FlowPane fx:id="resultFlowPane" columnHalignment="CENTER" prefHeight="200.0" prefWrapLength="0.0" />
+               </content>
+            </ScrollPane>
+            <AnchorPane fx:id="stackPaneTextAnchorPane">
+               <children>
+                  <Label fx:id="stackPaneTextLabel" alignment="CENTER" layoutX="19.0" layoutY="86.0" prefHeight="36.0" prefWidth="1001.0" text="No episodes for this media" textAlignment="CENTER" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+         </children>
+      </StackPane>
    </children>
 </AnchorPane>

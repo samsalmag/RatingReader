@@ -21,38 +21,46 @@
 		<dependency>
 			<groupId>org.openjfx</groupId>
 			<artifactId>javafx-base</artifactId>
-			<version>11.0.2</version>
+			<version>16</version>
 		</dependency>
 
         <!-- JavaFX Graphics -->
 		<dependency>
 			<groupId>org.openjfx</groupId>
 			<artifactId>javafx-graphics</artifactId>
-			<version>11.0.2</version>
+			<version>16</version>
 		</dependency>
 
         <!-- JavaFX Controls -->
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>11.0.2</version>
+            <version>16</version>
         </dependency>
 
         <!-- JavaFX FXML -->
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
-            <version>11.0.2</version>
+            <version>16</version>
         </dependency>
 
         <!-- JSoup -->
 		<dependency>
 			<groupId>org.jsoup</groupId>
 			<artifactId>jsoup</artifactId>
-			<version>1.11.3</version>
+			<version>1.13.1</version>
 		</dependency>
 
-	</dependencies>
+        <!-- JUnit -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.7.0</version>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
 	
 	<build>
 		<plugins>
@@ -83,6 +91,7 @@
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>3.2.0</version>
                 <configuration>
+                    <outputDirectory>${basedir}/target/_build</outputDirectory>
                     <appendAssemblyId>false</appendAssemblyId>  <!-- No added descriptor at end of filename -->
                     <descriptorRefs>
                         <descriptorRef>jar-with-dependencies</descriptorRef>
@@ -130,8 +139,8 @@
                         </goals>
                         <configuration>
                             <headerType>gui</headerType>
-                            <outfile>target/${dev.executable.name}_${project.version}.exe</outfile>
-                            <jar>target/${project.artifactId}-${project.version}.jar</jar>
+                            <outfile>target/_build/${dev.executable.name}_${project.version}.exe</outfile>
+                            <jar>target/_build/${project.artifactId}-${project.version}.jar</jar>
                             <!-- if <dontWrapJar>true</dontWrapJar> change to this conf <jar>${project.artifactId}-${project.version}.jar</jar> -->
                             <dontWrapJar>false</dontWrapJar>
                             <errTitle>Error in launch4j plugin</errTitle>
@@ -140,11 +149,33 @@
                             </classPath>
                             <icon>src/main/resources/images/icon.ico</icon>
                             <jre>
-                                <minVersion>10.0.0</minVersion>
-                                <maxVersion>13.0.0</maxVersion>
+                                <path>./win32/java</path>
                                 <initialHeapSize>512</initialHeapSize>
                                 <maxHeapSize>1024</maxHeapSize>
                             </jre>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- This plugin copies the JRE used to do the build from java.home - should be 32 bit Windows JRE -->
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${basedir}/target/_build/win32/java</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${java.home}</directory>
+                                </resource>
+                            </resources>
                         </configuration>
                     </execution>
                 </executions>
