@@ -140,6 +140,8 @@ public class ImdbEpisodeController {
                     String nrRatings = nrRatingsElement.text();
                     nrRatings = nrRatings.replaceAll("[()]", "").replaceAll(",", " ");      // Remove parentheses and replace ',' with space
                     episode.setNrRatings(nrRatings);
+                } else {
+                    episode.setNrRatings("0");
                 }
 
             }

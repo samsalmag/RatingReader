@@ -3,6 +3,7 @@ package com.zemahzalek.ratingreader.model;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -25,10 +26,22 @@ public class Episode {
 
     public void fetchLength() throws IOException {
         Document websiteCode = Jsoup.connect(url).get();
-        Element subtextInformationDiv = websiteCode.getElementsByClass("TitleBlock__TitleMetaDataContainer-sc-1nlhx7j-4 cgfrOx").first();
-        //Element subtextInformationDiv2 = subtextInformationDiv.get(0);
-        //String length = subtextInformationDiv.getAllElements().last().text();
-        this.length = length;
+        String c = "TitleBlock__TitleMetaDataContainer-sc-1nlhx7j-2 hWHMKr";
+        c = "." + c.replaceAll("\\s+", ".");
+
+        Elements elements = websiteCode.select(c);
+
+        Element informationContainer = elements.first().child(0);
+        if(informationContainer.children().size() == 0) {
+            return;
+        }
+        String length = informationContainer.children().last().text();
+
+        if(Character.isDigit(length.charAt(0))) {
+            this.length = length;
+        } else {
+            this.length = "NA";
+        }
     }
 
     // ---------------------------- GETTERS ---------------------------- //

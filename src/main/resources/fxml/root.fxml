@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="rootAnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="1050.0" prefHeight="700.0" prefWidth="1050.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.zemahzalek.ratingreader.controller.Controller">
+<AnchorPane fx:id="rootAnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="515.0" minWidth="700.0" prefHeight="515.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.zemahzalek.ratingreader.controller.Controller">
    <children>
       <TextField fx:id="searchTextField" layoutX="20.0" layoutY="22.0" prefHeight="30.0" prefWidth="200.0" />
       <Button fx:id="searchButton" layoutX="234.0" layoutY="22.0" mnemonicParsing="false" onMousePressed="#onPressSearchButton" prefHeight="30.0" prefWidth="60.0" text="Search">
@@ -56,6 +56,11 @@
             <Font size="20.0" />
          </font>
       </Label>
+      <Label fx:id="imdbWebsiteVersionLabel" layoutX="669.0" layoutY="177.0" prefHeight="30.0" prefWidth="30.0" text="V: ?" AnchorPane.rightAnchor="-10.0">
+         <font>
+            <Font size="10.0" />
+         </font>
+      </Label>
       <Label fx:id="loadingLabel" layoutX="21.0" layoutY="99.0" text="Loading...">
          <graphic>
             <ImageView fitHeight="36.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true">
@@ -68,7 +73,7 @@
             <Font name="System Bold" size="19.0" />
          </font>
       </Label>
-      <StackPane fx:id="stackPane" layoutY="200.0" prefHeight="500.0" prefWidth="1050.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="200.0">
+      <StackPane fx:id="stackPane" layoutY="200.0" prefHeight="515.0" prefWidth="700.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="200.0">
          <children>
             <ScrollPane fx:id="resultScrollPane" focusTraversable="false" hbarPolicy="NEVER" onMousePressed="#removeFocus" vbarPolicy="ALWAYS">
                <content>

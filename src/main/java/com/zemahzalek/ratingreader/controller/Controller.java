@@ -1,6 +1,7 @@
 package com.zemahzalek.ratingreader.controller;
 
 import com.zemahzalek.ratingreader.controller.imdb.ImdbController;
+import com.zemahzalek.ratingreader.controller.imdb.NewImdbController;
 import com.zemahzalek.ratingreader.controller.imdb.OldImdbController;
 import com.zemahzalek.ratingreader.model.Episode;
 import com.zemahzalek.ratingreader.util.ViewConstants;
@@ -41,6 +42,7 @@ public class Controller {
     @FXML private FlowPane resultFlowPane;
     @FXML private Label stackPaneTextLabel;
     @FXML private AnchorPane stackPaneTextAnchorPane;
+    @FXML private Label imdbWebsiteVersionLabel;
 
     String initText = "Search for a media above";
     String noEpisodesText = "No episodes exists for this media";
@@ -235,6 +237,16 @@ public class Controller {
             // The UI updater. This is what will happen after media information is gathered. Updater is called below.
             // Runs the UI updater after JavaFX Application thread is done (after the media information is gathered)
             Platform.runLater(() -> {
+
+                // Set the website code version label
+                if(imdbController.getController() instanceof OldImdbController) {
+                    imdbWebsiteVersionLabel.setText("V: O");
+                } else if(imdbController.getController() instanceof NewImdbController) {
+                    imdbWebsiteVersionLabel.setText("V: N");
+                } else {
+                    imdbWebsiteVersionLabel.setText("V: ?");
+                }
+
                 nameLabel.setText(media.getName());
                 yearLabel.setText(String.valueOf(media.getReleaseYear()));
                 typeLabel.setText(media.getType().getName());
