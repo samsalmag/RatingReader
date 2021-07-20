@@ -8,7 +8,7 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 
-public class ImdbController {
+public class ImdbHandler {
 
     IImdbController controller;
 
@@ -16,7 +16,7 @@ public class ImdbController {
     private String mainUrl;
     private Document mainWebsiteCode;
 
-    public ImdbController(Media media) {
+    public ImdbHandler(Media media) {
         this.media = media;
     }
 
@@ -57,7 +57,7 @@ public class ImdbController {
     public IImdbController setWebsiteCodeVersion() {
 
         Elements old = mainWebsiteCode.select(".title_wrapper");
-        Elements newest = mainWebsiteCode.select(".TitleHeader__TitleText-sc-1wu6n3d-0.dxSWFG");
+        Elements newest = mainWebsiteCode.select(".TitleHeader__TitleText-sc-1wu6n3d-0");
 
         if(old.size() != 0) {
             controller = new OldImdbController(mainWebsiteCode);

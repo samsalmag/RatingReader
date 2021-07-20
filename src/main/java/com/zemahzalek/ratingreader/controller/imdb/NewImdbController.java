@@ -16,7 +16,7 @@ public class NewImdbController implements IImdbController {
 
     @Override
     public String fetchMediaName() {
-        String c = "TitleHeader__TitleText-sc-1wu6n3d-0 dxSWFG";
+        String c = "TitleHeader__TitleText-sc-1wu6n3d-0";
         c = "." + c.replaceAll("\\s+", ".");
 
         Elements elements = mainWebsiteCode.select(c);
@@ -52,7 +52,7 @@ public class NewImdbController implements IImdbController {
 
     @Override
     public String fetchMediaCategory() {
-        String c = "ipc-chip-list ipc-chip-list--nowrap GenresAndPlot__GenresChipList-cum89p-7 eXvdrU noWrapAtLargeBreakpoints";
+        String c = "ipc-chip-list GenresAndPlot__GenresChipList-cum89p-4 gtBDBL";
         c = "." + c.replaceAll("\\s+", ".");
 
         Elements elements = mainWebsiteCode.select(c);
@@ -95,7 +95,7 @@ public class NewImdbController implements IImdbController {
         c = "." + c.replaceAll("\\s+", ".");
 
         Elements elements = mainWebsiteCode.select(c);
-        Element lengthList = elements.last();
+        Element lengthList = elements.get(elements.size()-2);
         String length = lengthList.child(0).child(0).child(1).child(0).child(0).child(0).text();
 
         if(Character.isDigit(length.charAt(0))) {
