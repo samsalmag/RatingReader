@@ -11,7 +11,10 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
+import java.awt.*;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 public class EpisodeItem extends AnchorPane {
 
@@ -98,6 +101,19 @@ public class EpisodeItem extends AnchorPane {
             nameLabel.setText(episode.getName());
         } else {
             nameLabel.setVisible(false);
+        }
+    }
+
+    @FXML
+    private void onPressEpisodeNumber() {
+        if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+            try {
+                Desktop.getDesktop().browse(new URI(episode.getUrl()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
         }
     }
 

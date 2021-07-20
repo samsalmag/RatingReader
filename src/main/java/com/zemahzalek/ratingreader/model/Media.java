@@ -9,6 +9,7 @@ public class Media {
     private String category;
     private int releaseYear;
     private String length;
+    private String url;
 
     private EpisodeGroupType episodeGroupType;
     private int nrEpisodes;
@@ -57,6 +58,9 @@ public class Media {
         return episodes;
     }
 
+    public String getUrl() {
+        return url;
+    }
 
     // ---------------------------- SETTERS ---------------------------- //
     public void setName(String name) {
@@ -93,5 +97,9 @@ public class Media {
 
     public void setEpisodes(ArrayList<ArrayList<Episode>> episodes) {
         this.episodes = episodes;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

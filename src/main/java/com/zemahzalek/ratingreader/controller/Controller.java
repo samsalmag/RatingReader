@@ -1,6 +1,6 @@
 package com.zemahzalek.ratingreader.controller;
 
-import com.zemahzalek.ratingreader.controller.imdb.ImdbController;
+import com.zemahzalek.ratingreader.controller.imdb.ImdbHandler;
 import com.zemahzalek.ratingreader.controller.imdb.NewImdbController;
 import com.zemahzalek.ratingreader.controller.imdb.OldImdbController;
 import com.zemahzalek.ratingreader.model.Episode;
@@ -11,18 +11,25 @@ import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.StackPane;
 
+import java.awt.*;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 public class Controller {
 
     Media media;
-    ImdbController imdbController;
+    ImdbHandler imdbHandler;
     private String previousSearch;
     private boolean searching;
 
@@ -71,7 +78,7 @@ public class Controller {
     // -------- INIT -------- //
     private void init() {
         media = new Media();
-        imdbController = new ImdbController(media);
+        imdbHandler = new ImdbHandler(media);
     }
 
     private void initSeasonComboBox() {
@@ -162,31 +169,6 @@ public class Controller {
         typeLabel.setVisible(true);
         categoryLabel.setVisible(true);
         lengthLabel.setVisible(true);
-
-        /*
-        // Media has no episode list created (is not a series), show 'noEpisodes' text
-        if(media.getEpisodes() == null) {
-            // Bring stackPane text to front and signal that no episodes exists
-            stackPaneTextAnchorPane.toFront();
-            stackPaneTextAnchorPane.setVisible(true);
-            stackPaneTextLabel.setText(noEpisodesText);
-        }
-        // Else media has episodes list. Check if it is empty, if so show 'noEpisodes' text
-        else {
-            if(media.getEpisodes().get(episodeGroup).isEmpty()) {
-                // Bring stackPane text to front and signal that no episodes exists
-                stackPaneTextAnchorPane.toFront();
-                stackPaneTextAnchorPane.setVisible(true);
-                stackPaneTextLabel.setText(noEpisodesText);
-            }
-            // Else show episodes as usual
-            else {
-                resultScrollPane.toFront();
-                stackPaneTextAnchorPane.setVisible(false);
-            }
-        }
-
-         */
     }
 
     private void populateSeasonComboBox() {
@@ -212,6 +194,19 @@ public class Controller {
         }
     }
 
+    @FXML
+    private void onPressMediaName() {
+        if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+            try {
+                Desktop.getDesktop().browse(new URI(media.getUrl()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     // ------------------  ------------------ //
 
     private class SearchMediaRunnable implements Runnable {
@@ -229,7 +224,7 @@ public class Controller {
 
             // Get the media information
             try {
-                imdbController.setMedia(searchTerm);  // Sets media
+                imdbHandler.setMedia(searchTerm);  // Sets media
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -239,9 +234,9 @@ public class Controller {
             Platform.runLater(() -> {
 
                 // Set the website code version label
-                if(imdbController.getController() instanceof OldImdbController) {
+                if(imdbHandler.getController() instanceof OldImdbController) {
                     imdbWebsiteVersionLabel.setText("V: O");
-                } else if(imdbController.getController() instanceof NewImdbController) {
+                } else if(imdbHandler.getController() instanceof NewImdbController) {
                     imdbWebsiteVersionLabel.setText("V: N");
                 } else {
                     imdbWebsiteVersionLabel.setText("V: ?");

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.image.Image?>
@@ -7,12 +8,15 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="63.0" prefWidth="350.0" type="AnchorPane" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="63.0" prefWidth="350.0" type="AnchorPane" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label fx:id="episodeNrLabel" layoutX="6.0" text="EP23">
+      <Label fx:id="episodeNrLabel" layoutX="6.0" onMousePressed="#onPressEpisodeNumber" text="EP23">
          <font>
             <Font name="System Bold" size="25.0" />
          </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </Label>
       <ToggleButton fx:id="nameToggleButton" layoutX="71.0" layoutY="6.0" mnemonicParsing="false" onMousePressed="#onPressEpisodeNameToggleButton" prefHeight="25.0" prefWidth="116.0" text="Show Episode Name">
          <font>

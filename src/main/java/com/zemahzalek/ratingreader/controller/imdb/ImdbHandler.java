@@ -23,6 +23,7 @@ public class ImdbController {
     public void setMedia(String mediaName) throws IOException {
         fetchImdbWebsiteCode(mediaName);
         setWebsiteCodeVersion();
+        media.setUrl(mainUrl);
         media.setName(controller.fetchMediaName());
         media.setType(controller.fetchMediaType());
         media.setCategory(controller.fetchMediaCategory());
