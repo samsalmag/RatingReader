@@ -81,7 +81,7 @@
          <children>
             <ScrollPane fx:id="resultScrollPane" fitToHeight="true" fitToWidth="true" focusTraversable="false" hbarPolicy="NEVER" onMousePressed="#removeFocus" vbarPolicy="ALWAYS">
                <content>
-                  <FlowPane fx:id="resultFlowPane" columnHalignment="CENTER" minHeight="945.0" nodeOrientation="LEFT_TO_RIGHT" orientation="VERTICAL" prefWrapLength="0.0" style="-fx-background-color: red;" />
+                  <FlowPane fx:id="resultFlowPane" columnHalignment="CENTER" nodeOrientation="LEFT_TO_RIGHT" prefWrapLength="0.0" />
                </content>
             </ScrollPane>
             <AnchorPane fx:id="stackPaneTextAnchorPane">
