@@ -12,6 +12,6 @@ By Sam Salek
 ## How to download
 Download the most recent runnable .jar and .exe from the [releases page](https://github.com/sam-salek/RatingReader/releases/).
 * A recent JRE needs to be installed to run the .jar
-* The .exe **must always** be located in the same folder as the included "win32" folder to be able to run. You can create a shortcut of the .exe and place it wherever you need for easier access. 
+* The .exe **must always** be located in the same directory as the included "win32" folder to be able to run. You can create a shortcut of the .exe and place it wherever you need for easier access. 
 
 
