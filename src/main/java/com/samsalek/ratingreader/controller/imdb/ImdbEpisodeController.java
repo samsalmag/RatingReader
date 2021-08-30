@@ -96,6 +96,9 @@ public class ImdbEpisodeController {
     }
 
     private void fetchEpisodeInfo() {
+        media.setWorstEpisodes(null);
+        media.setBestEpisodes(null);
+
         // Loop through each episode group
         for (int eg = 0; eg < media.getEpisodeGroups().size(); eg++) {
 
@@ -104,46 +107,99 @@ public class ImdbEpisodeController {
             for(int e = 0; e < episodesDiv.children().size(); e++) {
 
                 Episode episode = media.getEpisodes().get(eg).get(e);
+
                 // SET EPISODE GROUP AND EPISODE NUMBER
                 episode.setEpisodeGroupNr(eg+1);
                 episode.setEpisodeNr(e+1);
 
-                // URLs
-                String url = episodesDiv.child(e).select("strong").select("a").attr("abs:href");
-                episode.setUrl(url);
+                fetchUrl(episode, episodesDiv, e);
+                fetchNames(episode, episodesDiv, e);
+                fetchRatings(episode, episodesDiv, e);
+                fetchAirdate(episode, episodesDiv, e);
+                fetchNrRatings(episode, episodesDiv, e);
 
-                // NAMES
-                String name = episodesDiv.child(e).select("strong").select("a").text();
-                episode.setName(name);
-
-                // RATINGS
-                Element ratingElement = episodesDiv.child(e).getElementsByClass("ipl-rating-star__rating").first();
-                String rating;
-                if(ratingElement == null) {                                 // If no rating exists
-                    rating = "NA";
+                if(!episode.getRating().equals("NA")) {
+                    setWorstAndBestEpisodes(episode);
                 }
-                else if(ratingElement.text().equals("0")) {                 // If rating exists but at the same time doesn't? (ratings can be "0" even if they don't exist)
-                    rating = "NA";
-                }
-                else {
-                    rating = ratingElement.text().substring(0, 3);          // Cuts off excess rating information
-                }
-                episode.setRating(rating);        // Adds rating to list
+            }
+        }
+    }
 
-                // AIRDATE
-                String airdate = episodesDiv.child(e).getElementsByClass("airdate").first().text();
-                episode.setAirdate(airdate);
+    private void fetchUrl(Episode episode, Element episodesDiv, int e){
+        String url = episodesDiv.child(e).select("strong").select("a").attr("abs:href");
+        episode.setUrl(url);
+    }
 
-                // NUMBER OF RATINGS
-                Element nrRatingsElement = episodesDiv.child(e).getElementsByClass("ipl-rating-star__total-votes").first();
-                if(nrRatingsElement != null) {
-                    String nrRatings = nrRatingsElement.text();
-                    nrRatings = nrRatings.replaceAll("[()]", "").replaceAll(",", " ");      // Remove parentheses and replace ',' with space
-                    episode.setNrRatings(nrRatings);
-                } else {
-                    episode.setNrRatings("0");
+    private void fetchNames(Episode episode, Element episodesDiv, int e){
+        String name = episodesDiv.child(e).select("strong").select("a").text();
+        episode.setName(name);
+    }
+
+    private void fetchRatings(Episode episode, Element episodesDiv, int e){
+        Element ratingElement = episodesDiv.child(e).getElementsByClass("ipl-rating-star__rating").first();
+        String rating;
+        if(ratingElement == null) {                                 // If no rating exists
+            rating = "NA";
+        }
+        else if(ratingElement.text().equals("0")) {                 // If rating exists but at the same time doesn't? (ratings can be "0" even if they don't exist)
+            rating = "NA";
+        }
+        else {
+            rating = ratingElement.text().substring(0, 3);          // Cuts off excess rating information
+        }
+        episode.setRating(rating);        // Adds rating to list
+    }
+
+    private void fetchAirdate(Episode episode, Element episodesDiv, int e) {
+        String airdate = episodesDiv.child(e).getElementsByClass("airdate").first().text();
+        episode.setAirdate(airdate);
+    }
+
+    private void fetchNrRatings(Episode episode, Element episodesDiv, int e) {
+        Element nrRatingsElement = episodesDiv.child(e).getElementsByClass("ipl-rating-star__total-votes").first();
+        if(nrRatingsElement != null) {
+            String nrRatings = nrRatingsElement.text();
+            nrRatings = nrRatings.replaceAll("[()]", "").replaceAll(",", " ");      // Remove parentheses and replace ',' with space
+            episode.setNrRatings(nrRatings);
+        } else {
+            episode.setNrRatings("0");
+        }
+    }
+
+    private void setWorstAndBestEpisodes(Episode episode) {
+        // Worst rated episodes
+        if(media.getWorstEpisodes() == null) {
+            ArrayList<Episode> episodes = new ArrayList<>();
+            episodes.add(episode);
+            media.setWorstEpisodes(episodes);
+        } else {
+            for (Episode ep : media.getWorstEpisodes()) {
+                if(Math.abs(Double.parseDouble(episode.getRating()) - Double.parseDouble(ep.getRating())) < 0.01) {
+                    media.getWorstEpisodes().add(episode);
+                    break;
+                } else if(Double.parseDouble(episode.getRating()) < Double.parseDouble(ep.getRating())) {
+                    media.getWorstEpisodes().clear();
+                    media.getWorstEpisodes().add(episode);
+                    break;
                 }
+            }
+        }
 
+        // Best rated episodes
+        if(media.getBestEpisodes() == null) {
+            ArrayList<Episode> episodes = new ArrayList<>();
+            episodes.add(episode);
+            media.setBestEpisodes(episodes);
+        } else {
+            for (Episode ep : media.getBestEpisodes()) {
+                if(Math.abs(Double.parseDouble(episode.getRating()) - Double.parseDouble(ep.getRating())) < 0.01) {
+                    media.getBestEpisodes().add(episode);
+                    break;
+                } else if(Double.parseDouble(episode.getRating()) > Double.parseDouble(ep.getRating())) {
+                    media.getBestEpisodes().clear();
+                    media.getBestEpisodes().add(episode);
+                    break;
+                }
             }
         }
     }

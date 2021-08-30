@@ -55,12 +55,20 @@ public class EpisodeItem extends AnchorPane {
             nrRatingsLabel.setText(episode.getNrRatings() + " ratings");
         }
 
+        setBackgroundColor();
+    }
 
-        // Change background color
+    private void setBackgroundColor() {
         if(episode.getEpisodeNr() % 2 == 0) {
             setStyle("-fx-background-color: #e9e9e9");
         } else {
             setStyle("-fx-background-color: #e3e3e3");
+        }
+
+        if(episode.getMedia().getWorstEpisodes().contains(episode)) {
+            setStyle("-fx-background-color: #bd4245");
+        } else if(episode.getMedia().getBestEpisodes().contains(episode)) {
+            setStyle("-fx-background-color: #2cd354");
         }
     }
 

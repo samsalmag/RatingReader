@@ -15,6 +15,7 @@ public class Media {
     private int nrEpisodes;
     private ArrayList<String> episodeGroups;
     private ArrayList<ArrayList<Episode>> episodes;
+    private ArrayList<Episode> worstEpisodes, bestEpisodes;
 
     public boolean isSeries() {
         return type.equals(MediaType.SERIES) || type.equals(MediaType.MINISERIES);
@@ -62,6 +63,14 @@ public class Media {
         return url;
     }
 
+    public ArrayList<Episode> getWorstEpisodes() {
+        return worstEpisodes;
+    }
+
+    public ArrayList<Episode> getBestEpisodes() {
+        return bestEpisodes;
+    }
+
     // ---------------------------- SETTERS ---------------------------- //
     public void setName(String name) {
         this.name = name;
@@ -101,5 +110,13 @@ public class Media {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public void setWorstEpisodes(ArrayList<Episode> worstEpisodes) {
+        this.worstEpisodes = worstEpisodes;
+    }
+
+    public void setBestEpisodes(ArrayList<Episode> bestEpisodes) {
+        this.bestEpisodes = bestEpisodes;
     }
 }

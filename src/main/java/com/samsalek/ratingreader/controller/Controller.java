@@ -239,6 +239,7 @@ public class Controller {
             // Get the media information
             try {
                 imdbHandler.setMedia(searchTerm);  // Sets media
+                System.out.println(media.getWorstEpisodes());
             } catch (IOException e) {
                 e.printStackTrace();
             }
