@@ -1,6 +1,6 @@
-package com.zemahzalek.ratingreader;
+package com.samsalek.ratingreader;
 
-import com.zemahzalek.ratingreader.view.RatingReader;
+import com.samsalek.ratingreader.view.RatingReader;
 
 public class Main {
 

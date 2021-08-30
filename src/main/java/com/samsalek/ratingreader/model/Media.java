@@ -1,4 +1,4 @@
-package com.zemahzalek.ratingreader.model;
+package com.samsalek.ratingreader.model;
 
 import java.util.ArrayList;
 

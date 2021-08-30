@@ -1,10 +1,10 @@
-package com.zemahzalek.ratingreader;
+package com.samsalek.ratingreader;
 
-import com.zemahzalek.ratingreader.controller.imdb.IImdbController;
-import com.zemahzalek.ratingreader.controller.imdb.ImdbHandler;
-import com.zemahzalek.ratingreader.controller.imdb.NewImdbController;
-import com.zemahzalek.ratingreader.controller.imdb.OldImdbController;
-import com.zemahzalek.ratingreader.model.Media;
+import com.samsalek.ratingreader.controller.imdb.IImdbController;
+import com.samsalek.ratingreader.controller.imdb.ImdbHandler;
+import com.samsalek.ratingreader.controller.imdb.NewImdbController;
+import com.samsalek.ratingreader.controller.imdb.OldImdbController;
+import com.samsalek.ratingreader.model.Media;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;

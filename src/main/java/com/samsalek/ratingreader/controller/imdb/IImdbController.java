@@ -1,6 +1,6 @@
-package com.zemahzalek.ratingreader.controller.imdb;
+package com.samsalek.ratingreader.controller.imdb;
 
-import com.zemahzalek.ratingreader.model.MediaType;
+import com.samsalek.ratingreader.model.MediaType;
 
 public interface IImdbController {
 

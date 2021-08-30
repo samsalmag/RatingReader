@@ -1,4 +1,4 @@
-package com.zemahzalek.ratingreader.util;
+package com.samsalek.ratingreader.util;
 
 public class ViewConstants {
 

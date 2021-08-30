@@ -1,9 +1,10 @@
-package com.zemahzalek.ratingreader;
+package com.samsalek.ratingreader;
 
-import com.zemahzalek.ratingreader.controller.imdb.IImdbController;
-import com.zemahzalek.ratingreader.controller.imdb.ImdbHandler;
-import com.zemahzalek.ratingreader.model.Media;
-import com.zemahzalek.ratingreader.model.MediaType;
+import com.samsalek.ratingreader.controller.imdb.IImdbController;
+import com.samsalek.ratingreader.controller.imdb.ImdbHandler;
+import com.samsalek.ratingreader.model.MediaType;
+import com.samsalek.ratingreader.model.Media;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -67,43 +68,43 @@ public class IImdbControllerTest {
         try {
             imdbHandler.fetchImdbWebsiteCode("WandaVision");
             controller = imdbHandler.setWebsiteCodeVersion();
-            assertEquals(MediaType.MINISERIES, controller.fetchMediaType());
+            Assertions.assertEquals(MediaType.MINISERIES, controller.fetchMediaType());
 
             imdbHandler.fetchImdbWebsiteCode("Game of thrones");
             controller = imdbHandler.setWebsiteCodeVersion();
-            assertEquals(MediaType.SERIES, controller.fetchMediaType());
+            Assertions.assertEquals(MediaType.SERIES, controller.fetchMediaType());
 
             imdbHandler.fetchImdbWebsiteCode("Loki");
             controller = imdbHandler.setWebsiteCodeVersion();
-            assertEquals(MediaType.SERIES, controller.fetchMediaType());
+            Assertions.assertEquals(MediaType.SERIES, controller.fetchMediaType());
 
             imdbHandler.fetchImdbWebsiteCode("God of war");
             controller = imdbHandler.setWebsiteCodeVersion();
-            assertEquals(MediaType.VIDEOGAME, controller.fetchMediaType());
+            Assertions.assertEquals(MediaType.VIDEOGAME, controller.fetchMediaType());
 
             imdbHandler.fetchImdbWebsiteCode("Avengers endgame");
             controller = imdbHandler.setWebsiteCodeVersion();
-            assertEquals(MediaType.MOVIE, controller.fetchMediaType());
+            Assertions.assertEquals(MediaType.MOVIE, controller.fetchMediaType());
 
             imdbHandler.fetchImdbWebsiteCode("Spiderman far from home");
             controller = imdbHandler.setWebsiteCodeVersion();
-            assertEquals(MediaType.MOVIE, controller.fetchMediaType());
+            Assertions.assertEquals(MediaType.MOVIE, controller.fetchMediaType());
 
             imdbHandler.fetchImdbWebsiteCode("Black sails");
             controller = imdbHandler.setWebsiteCodeVersion();
-            assertEquals(MediaType.SERIES, controller.fetchMediaType());
+            Assertions.assertEquals(MediaType.SERIES, controller.fetchMediaType());
 
             imdbHandler.fetchImdbWebsiteCode("Breaking bad");
             controller = imdbHandler.setWebsiteCodeVersion();
-            assertEquals(MediaType.SERIES, controller.fetchMediaType());
+            Assertions.assertEquals(MediaType.SERIES, controller.fetchMediaType());
 
             imdbHandler.fetchImdbWebsiteCode("Fury");
             controller = imdbHandler.setWebsiteCodeVersion();
-            assertEquals(MediaType.MOVIE, controller.fetchMediaType());
+            Assertions.assertEquals(MediaType.MOVIE, controller.fetchMediaType());
 
             imdbHandler.fetchImdbWebsiteCode("Transformers age of extinction");
             controller = imdbHandler.setWebsiteCodeVersion();
-            assertEquals(MediaType.MOVIE, controller.fetchMediaType());
+            Assertions.assertEquals(MediaType.MOVIE, controller.fetchMediaType());
         } catch (IOException e) {
             e.printStackTrace();
         }

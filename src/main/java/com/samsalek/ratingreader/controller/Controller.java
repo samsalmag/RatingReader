@@ -1,14 +1,15 @@
-package com.zemahzalek.ratingreader.controller;
+package com.samsalek.ratingreader.controller;
 
-import com.zemahzalek.ratingreader.controller.imdb.ImdbHandler;
-import com.zemahzalek.ratingreader.controller.imdb.NewImdbController;
-import com.zemahzalek.ratingreader.controller.imdb.OldImdbController;
-import com.zemahzalek.ratingreader.model.Episode;
-import com.zemahzalek.ratingreader.util.ViewConstants;
-import com.zemahzalek.ratingreader.view.EpisodeItem;
-import com.zemahzalek.ratingreader.model.Media;
+import com.samsalek.ratingreader.controller.imdb.ImdbHandler;
+import com.samsalek.ratingreader.controller.imdb.NewImdbController;
+import com.samsalek.ratingreader.controller.imdb.OldImdbController;
+import com.samsalek.ratingreader.util.ViewConstants;
+import com.samsalek.ratingreader.model.Episode;
+import com.samsalek.ratingreader.view.EpisodeItem;
+import com.samsalek.ratingreader.model.Media;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
@@ -118,11 +119,24 @@ public class Controller {
     }
 
     private void initResultFlowPane() {
-        resultFlowPane.setPrefWidth(resultScrollPane.getWidth() - ViewConstants.RESULT_SCROLLPANE_SCROLLBAR_WIDTH);
+        //resultFlowPane.setPrefWidth(resultScrollPane.getWidth() - ViewConstants.RESULT_SCROLLPANE_SCROLLBAR_WIDTH);
 
         // Add listener to scrollpane's width so resultFlowPane will change width correctly (to scrollpane's viewport width (scrollbar excluded))
-        resultScrollPane.widthProperty().addListener((observableValue, oldValue, newValue) ->
-                resultFlowPane.setPrefWidth(resultScrollPane.getWidth() - ViewConstants.RESULT_SCROLLPANE_SCROLLBAR_WIDTH));
+        //resultScrollPane.widthProperty().addListener((observableValue, oldValue, newValue) ->
+        //        resultFlowPane.setPrefWidth(resultScrollPane.getWidth() - ViewConstants.RESULT_SCROLLPANE_SCROLLBAR_WIDTH));
+
+
+        resultFlowPane.setMaxWidth(resultScrollPane.getWidth() - ViewConstants.RESULT_SCROLLPANE_SCROLLBAR_WIDTH);
+        resultScrollPane.widthProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number oldValue, Number newValue) {
+                //resultFlowPane.setPrefWidth(resultScrollPane.getWidth() - ViewConstants.RESULT_SCROLLPANE_SCROLLBAR_WIDTH);
+                resultFlowPane.setMaxWidth(resultScrollPane.getWidth() - ViewConstants.RESULT_SCROLLPANE_SCROLLBAR_WIDTH);
+                resultFlowPane.setPrefWidth(resultScrollPane.getWidth() - ViewConstants.RESULT_SCROLLPANE_SCROLLBAR_WIDTH);
+                resultFlowPane.setMinWidth(resultScrollPane.getWidth() - ViewConstants.RESULT_SCROLLPANE_SCROLLBAR_WIDTH);
+                System.out.println(resultFlowPane.getWidth());
+            }
+        });
     }
 
     // ------------------  ------------------ //

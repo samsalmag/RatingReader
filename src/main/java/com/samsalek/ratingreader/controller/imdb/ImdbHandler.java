@@ -1,6 +1,6 @@
-package com.zemahzalek.ratingreader.controller.imdb;
+package com.samsalek.ratingreader.controller.imdb;
 
-import com.zemahzalek.ratingreader.model.Media;
+import com.samsalek.ratingreader.model.Media;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;

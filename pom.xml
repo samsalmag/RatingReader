@@ -82,7 +82,7 @@
                  <artifactId>javafx-maven-plugin</artifactId>
                  <version>0.0.3</version>
                  <configuration>
-                     <mainClass>com.zemahzalek.ratingreader.view.RatingReader</mainClass>
+                     <mainClass>com.samsalek.ratingreader.view.RatingReader</mainClass>
                  </configuration>
             </plugin>
 
@@ -98,7 +98,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>com.zemahzalek.ratingreader.Main</mainClass>
+                            <mainClass>com.samsalek.ratingreader.Main</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -145,7 +145,7 @@
                             <dontWrapJar>false</dontWrapJar>
                             <errTitle>Error in launch4j plugin</errTitle>
                             <classPath>
-                                <mainClass>com.zemahzalek.ratingreader.Main</mainClass>
+                                <mainClass>com.samsalek.ratingreader.Main</mainClass>
                             </classPath>
                             <icon>src/main/resources/images/icon.ico</icon>
                             <jre>

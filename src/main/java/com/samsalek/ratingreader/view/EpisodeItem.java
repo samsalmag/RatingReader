@@ -1,6 +1,6 @@
-package com.zemahzalek.ratingreader.view;
+package com.samsalek.ratingreader.view;
 
-import com.zemahzalek.ratingreader.model.Episode;
+import com.samsalek.ratingreader.model.Episode;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

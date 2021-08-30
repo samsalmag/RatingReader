@@ -1,4 +1,4 @@
-package com.zemahzalek.ratingreader.model;
+package com.samsalek.ratingreader.model;
 
 public enum EpisodeGroupType {
     SEASON, YEAR;

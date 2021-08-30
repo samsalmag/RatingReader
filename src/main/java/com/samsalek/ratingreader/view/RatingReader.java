@@ -1,6 +1,6 @@
-package com.zemahzalek.ratingreader.view;
+package com.samsalek.ratingreader.view;
 
-import com.zemahzalek.ratingreader.util.ViewConstants;
+import com.samsalek.ratingreader.util.ViewConstants;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

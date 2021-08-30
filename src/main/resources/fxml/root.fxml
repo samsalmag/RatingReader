@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="rootAnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="515.0" minWidth="700.0" prefHeight="515.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.zemahzalek.ratingreader.controller.Controller">
+<AnchorPane fx:id="rootAnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="515.0" minWidth="700.0" prefHeight="515.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.samsalek.ratingreader.controller.Controller">
    <children>
       <TextField fx:id="searchTextField" layoutX="20.0" layoutY="22.0" prefHeight="30.0" prefWidth="200.0" />
       <Button fx:id="searchButton" layoutX="234.0" layoutY="22.0" mnemonicParsing="false" onMousePressed="#onPressSearchButton" prefHeight="30.0" prefWidth="60.0" text="Search">
@@ -81,7 +81,7 @@
          <children>
             <ScrollPane fx:id="resultScrollPane" fitToHeight="true" fitToWidth="true" focusTraversable="false" hbarPolicy="NEVER" onMousePressed="#removeFocus" vbarPolicy="ALWAYS">
                <content>
-                  <FlowPane fx:id="resultFlowPane" columnHalignment="CENTER" nodeOrientation="LEFT_TO_RIGHT" orientation="VERTICAL" prefWrapLength="0.0" />
+                  <FlowPane fx:id="resultFlowPane" columnHalignment="CENTER" minHeight="945.0" nodeOrientation="LEFT_TO_RIGHT" orientation="VERTICAL" prefWrapLength="0.0" style="-fx-background-color: red;" />
                </content>
             </ScrollPane>
             <AnchorPane fx:id="stackPaneTextAnchorPane">
