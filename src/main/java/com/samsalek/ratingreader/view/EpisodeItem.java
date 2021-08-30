@@ -66,9 +66,9 @@ public class EpisodeItem extends AnchorPane {
         }
 
         if(episode.getMedia().getWorstEpisodes().contains(episode)) {
-            setStyle("-fx-background-color: #bd4245");
+            setStyle("-fx-background-color: #bd4245; -fx-border-color: red; -fx-border-width: 4px");
         } else if(episode.getMedia().getBestEpisodes().contains(episode)) {
-            setStyle("-fx-background-color: #2cd354");
+            setStyle("-fx-background-color: #2cd354; -fx-border-color: green; -fx-border-width: 4px");
         }
     }
 

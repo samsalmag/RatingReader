@@ -119,24 +119,11 @@ public class Controller {
     }
 
     private void initResultFlowPane() {
-        //resultFlowPane.setPrefWidth(resultScrollPane.getWidth() - ViewConstants.RESULT_SCROLLPANE_SCROLLBAR_WIDTH);
+        resultFlowPane.setPrefWidth(resultScrollPane.getWidth() - ViewConstants.RESULT_SCROLLPANE_SCROLLBAR_WIDTH);
 
         // Add listener to scrollpane's width so resultFlowPane will change width correctly (to scrollpane's viewport width (scrollbar excluded))
-        //resultScrollPane.widthProperty().addListener((observableValue, oldValue, newValue) ->
-        //        resultFlowPane.setPrefWidth(resultScrollPane.getWidth() - ViewConstants.RESULT_SCROLLPANE_SCROLLBAR_WIDTH));
-
-
-        resultFlowPane.setMaxWidth(resultScrollPane.getWidth() - ViewConstants.RESULT_SCROLLPANE_SCROLLBAR_WIDTH);
-        resultScrollPane.widthProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observableValue, Number oldValue, Number newValue) {
-                //resultFlowPane.setPrefWidth(resultScrollPane.getWidth() - ViewConstants.RESULT_SCROLLPANE_SCROLLBAR_WIDTH);
-                resultFlowPane.setMaxWidth(resultScrollPane.getWidth() - ViewConstants.RESULT_SCROLLPANE_SCROLLBAR_WIDTH);
-                resultFlowPane.setPrefWidth(resultScrollPane.getWidth() - ViewConstants.RESULT_SCROLLPANE_SCROLLBAR_WIDTH);
-                resultFlowPane.setMinWidth(resultScrollPane.getWidth() - ViewConstants.RESULT_SCROLLPANE_SCROLLBAR_WIDTH);
-                System.out.println(resultFlowPane.getWidth());
-            }
-        });
+        resultScrollPane.widthProperty().addListener((observableValue, oldValue, newValue) ->
+                resultFlowPane.setPrefWidth(resultScrollPane.getWidth() - ViewConstants.RESULT_SCROLLPANE_SCROLLBAR_WIDTH));
     }
 
     // ------------------  ------------------ //
@@ -239,7 +226,6 @@ public class Controller {
             // Get the media information
             try {
                 imdbHandler.setMedia(searchTerm);  // Sets media
-                System.out.println(media.getWorstEpisodes());
             } catch (IOException e) {
                 e.printStackTrace();
             }
