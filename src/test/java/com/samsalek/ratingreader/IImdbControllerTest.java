@@ -139,7 +139,7 @@ public class IImdbControllerTest {
 
             imdbHandler.fetchImdbWebsiteCode("Black sails");
             controller = imdbHandler.setWebsiteCodeVersion();
-            assertEquals("Adventure, Drama", controller.fetchMediaCategory());
+            assertEquals("Action, Adventure, Drama", controller.fetchMediaCategory());
 
             imdbHandler.fetchImdbWebsiteCode("Breaking bad");
             controller = imdbHandler.setWebsiteCodeVersion();
@@ -209,11 +209,11 @@ public class IImdbControllerTest {
         try {
             imdbHandler.fetchImdbWebsiteCode("WandaVision");
             controller = imdbHandler.setWebsiteCodeVersion();
-            assertEquals("5h 50min", controller.fetchMediaLength());
+            assertEquals("5h 50m", controller.fetchMediaLength());
 
             imdbHandler.fetchImdbWebsiteCode("Game of thrones");
             controller = imdbHandler.setWebsiteCodeVersion();
-            assertEquals("57min", controller.fetchMediaLength());
+            assertEquals("57m", controller.fetchMediaLength());
 
             imdbHandler.fetchImdbWebsiteCode("Loki");
             controller = imdbHandler.setWebsiteCodeVersion();
@@ -225,27 +225,27 @@ public class IImdbControllerTest {
 
             imdbHandler.fetchImdbWebsiteCode("Avengers endgame");
             controller = imdbHandler.setWebsiteCodeVersion();
-            assertEquals("3h 1min", controller.fetchMediaLength());
+            assertEquals("3h 1m", controller.fetchMediaLength());
 
             imdbHandler.fetchImdbWebsiteCode("Spiderman far from home");
             controller = imdbHandler.setWebsiteCodeVersion();
-            assertEquals("2h 9min", controller.fetchMediaLength());
+            assertEquals("2h 9m", controller.fetchMediaLength());
 
             imdbHandler.fetchImdbWebsiteCode("Black sails");
             controller = imdbHandler.setWebsiteCodeVersion();
-            assertEquals("56min", controller.fetchMediaLength());
+            assertEquals("56m", controller.fetchMediaLength());
 
             imdbHandler.fetchImdbWebsiteCode("Breaking bad");
             controller = imdbHandler.setWebsiteCodeVersion();
-            assertEquals("49min", controller.fetchMediaLength());
+            assertEquals("49m", controller.fetchMediaLength());
 
             imdbHandler.fetchImdbWebsiteCode("Fury");
             controller = imdbHandler.setWebsiteCodeVersion();
-            assertEquals("2h 14min", controller.fetchMediaLength());
+            assertEquals("2h 14m", controller.fetchMediaLength());
 
             imdbHandler.fetchImdbWebsiteCode("Transformers age of extinction");
             controller = imdbHandler.setWebsiteCodeVersion();
-            assertEquals("2h 45min", controller.fetchMediaLength());
+            assertEquals("2h 45m", controller.fetchMediaLength());
         } catch (IOException e) {
             e.printStackTrace();
         }

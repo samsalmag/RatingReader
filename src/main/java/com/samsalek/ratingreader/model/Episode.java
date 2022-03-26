@@ -25,18 +25,13 @@ public class Episode {
 
     public void fetchLength() throws IOException {
         Document websiteCode = Jsoup.connect(url).get();
-        String c = "TitleBlock__TitleMetaDataContainer-sc-1nlhx7j-2 hWHMKr";
+        String c = "ipc-inline-list ipc-inline-list--show-dividers sc-52284603-0 blbaZJ baseAlt";
         c = "." + c.replaceAll("\\s+", ".");
 
         Elements elements = websiteCode.select(c);
+        String length = elements.first().child(elements.first().childNodeSize() - 1).text();
 
-        Element informationContainer = elements.first().child(0);
-        if(informationContainer.children().size() == 0) {
-            return;
-        }
-        String length = informationContainer.children().last().text();
-
-        if(Character.isDigit(length.charAt(0))) {
+        if(Character.isDigit(length.charAt(0)) && Character.isLetter(length.charAt(length.length() - 1))) {
             this.length = length;
         } else {
             this.length = "NA";

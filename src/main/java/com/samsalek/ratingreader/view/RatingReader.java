@@ -5,6 +5,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -23,10 +24,10 @@ public class RatingReader extends Application {
         Scene scene = new Scene(rootFXML, ViewConstants.INITIAL_WIDTH, ViewConstants.INITIAL_HEIGHT);
 
         stage.setScene(scene);
-        stage.show();
-
         String title = readPropertiesFile("dev.name") + " " + readPropertiesFile("dev.version");
         stage.setTitle(title);
+        stage.getIcons().add(new Image(getClass().getClassLoader().getResourceAsStream("images/icon.png")));
+        stage.show();
 
         // Decoration width and height (window border width and height)
         double dWidth = scene.getWindow().getWidth()-scene.getWidth();

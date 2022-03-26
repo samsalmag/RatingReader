@@ -18,7 +18,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Label>
-      <ToggleButton fx:id="nameToggleButton" layoutX="71.0" layoutY="6.0" mnemonicParsing="false" onMousePressed="#onPressEpisodeNameToggleButton" prefHeight="25.0" prefWidth="116.0" text="Show Episode Name">
+      <ToggleButton fx:id="nameToggleButton" layoutX="100.0" layoutY="6.0" mnemonicParsing="false" onMousePressed="#onPressEpisodeNameToggleButton" prefHeight="25.0" prefWidth="85.0" text="Episode name">
          <font>
             <Font size="11.0" />
          </font>

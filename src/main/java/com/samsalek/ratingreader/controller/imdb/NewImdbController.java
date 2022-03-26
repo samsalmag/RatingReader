@@ -7,7 +7,6 @@ import org.jsoup.select.Elements;
 
 public class NewImdbController implements IImdbController {
 
-
     private Document mainWebsiteCode;
 
     public NewImdbController(Document websiteCode) {
@@ -16,17 +15,17 @@ public class NewImdbController implements IImdbController {
 
     @Override
     public String fetchMediaName() {
-        String c = "TitleHeader__TitleText-sc-1wu6n3d-0";
+        String c = "sc-94726ce4-0 cMYixt";
         c = "." + c.replaceAll("\\s+", ".");
 
         Elements elements = mainWebsiteCode.select(c);
-        String name = elements.first().text();
+        String name = elements.first().child(0).child(0).text();
         return name;
     }
 
     @Override
     public MediaType fetchMediaType() {
-        String c = "ipc-inline-list ipc-inline-list--show-dividers TitleBlockMetaData__MetaDataList-sc-12ein40-0 dxizHm baseAlt";
+        String c = "ipc-inline-list ipc-inline-list--show-dividers sc-52284603-0 blbaZJ baseAlt";
         c = "." + c.replaceAll("\\s+", ".");
 
         Elements elements = mainWebsiteCode.select(c);
@@ -52,7 +51,7 @@ public class NewImdbController implements IImdbController {
 
     @Override
     public String fetchMediaCategory() {
-        String c = "ipc-chip-list GenresAndPlot__GenresChipList-cum89p-4 gtBDBL";
+        String c = "ipc-chip-list sc-16ede01-4 bMBIRz";
         c = "." + c.replaceAll("\\s+", ".");
 
         Elements elements = mainWebsiteCode.select(c);
@@ -71,7 +70,7 @@ public class NewImdbController implements IImdbController {
 
     @Override
     public int fetchMediaReleaseYear() {
-        String c = "TitleBlockMetaData__ListItemText-sc-12ein40-2 jedhex";
+        String c = "sc-52284603-2 iTRONr";
         c = "." + c.replaceAll("\\s+", ".");
 
         Elements elements = mainWebsiteCode.select(c);
@@ -91,14 +90,13 @@ public class NewImdbController implements IImdbController {
 
     @Override
     public String fetchMediaLength() {
-        String c = "styles__MetaDataContainer-sc-12uhu9s-0 cgqHBf";
+        String c = "ipc-inline-list ipc-inline-list--show-dividers sc-52284603-0 blbaZJ baseAlt";
         c = "." + c.replaceAll("\\s+", ".");
 
         Elements elements = mainWebsiteCode.select(c);
-        Element lengthList = elements.get(elements.size()-2);
-        String length = lengthList.child(0).child(0).child(1).child(0).child(0).child(0).text();
+        String length = elements.first().child(elements.first().childNodeSize() - 1).text();
 
-        if(Character.isDigit(length.charAt(0))) {
+        if(Character.isDigit(length.charAt(0)) && Character.isLetter(length.charAt(length.length() - 1))) {
             return length;
         } else {
             return "";

@@ -57,7 +57,10 @@ public class ImdbHandler {
     public IImdbController setWebsiteCodeVersion() {
 
         Elements old = mainWebsiteCode.select(".title_wrapper");
-        Elements newest = mainWebsiteCode.select(".TitleHeader__TitleText-sc-1wu6n3d-0");
+        Elements newest = mainWebsiteCode.select(".ipc-page-content-container" +
+                ".ipc-page-content-container--full" +
+                ".sc-b1984961-0" +
+                ".kXDasd");
 
         if(old.size() != 0) {
             controller = new OldImdbController(mainWebsiteCode);
